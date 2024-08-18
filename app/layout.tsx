@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Container, Grid, Theme } from "@radix-ui/themes";
+import { Container, Grid, Separator, Theme } from "@radix-ui/themes";
 import Sidebar from "./Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,11 +28,14 @@ export default function RootLayout({
             }}
             columns={{
               initial: "1fr",
-              lg: "300px 1fr",
+              lg: "280px 1fr",
             }}
+            className="min-h-screen"
           >
             <Sidebar />
-            {children}
+            <Container gridArea="main" className="p-10">
+              {children}
+            </Container>
           </Grid>
         </Theme>
       </body>

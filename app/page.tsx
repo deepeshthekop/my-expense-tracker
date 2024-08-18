@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Card,
   Container,
@@ -15,7 +16,7 @@ import { IoWalletOutline } from "react-icons/io5";
 
 function App() {
   return (
-    <Container gridArea="main" className="p-5">
+    <Box>
       <Text className="text-5xl" weight="bold">
         Hi, User 👋
       </Text>
@@ -41,7 +42,7 @@ function App() {
           />
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 }
 
