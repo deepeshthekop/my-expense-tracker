@@ -15,8 +15,10 @@ import { IoWalletOutline } from "react-icons/io5";
 
 function App() {
   return (
-    <Container className="p-5">
-      <Heading size="9">Hi, User 👋</Heading>
+    <Container gridArea="main" className="p-5">
+      <Text className="text-5xl" weight="bold">
+        Hi, User 👋
+      </Text>
       <Text size="4" as="p" color="gray" className="mt-3">
         Here are your expenses at a glance.
       </Text>

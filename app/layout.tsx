@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import { Container, Grid, Theme } from "@radix-ui/themes";
+import Sidebar from "./Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Theme>{children}</Theme>
+        <Theme appearance="dark">
+          <Grid
+            areas={{
+              initial: '"main"',
+              lg: '"aside main"',
+            }}
+            columns={{
+              initial: "1fr",
+              lg: "300px 1fr",
+            }}
+          >
+            <Sidebar />
+            {children}
+          </Grid>
+        </Theme>
       </body>
     </html>
   );
