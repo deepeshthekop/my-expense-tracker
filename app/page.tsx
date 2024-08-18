@@ -1,5 +1,7 @@
+import { Button } from "@radix-ui/themes";
+
 function App() {
-  return <div>App</div>;
+  return <Button>Hello</Button>;
 }
 
 export default App;
