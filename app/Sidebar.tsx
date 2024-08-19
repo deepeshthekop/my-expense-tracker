@@ -31,7 +31,7 @@ function Sidebar() {
               href={item.link}
               className={`flex items-center space-x-2 p-3 rounded-2xl transition-colors ${
                 currentPath === item.link
-                  ? "bg-[var(--gray-5)] text-[var(--accent-11)]"
+                  ? "bg-[var(--gray-5)] text-[var(--accent-9)]"
                   : "text-[var(--gray-11)]"
               } hover:text-[var(--accent-9)]`}
             >
