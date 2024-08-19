@@ -1,22 +1,12 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Container,
-  Flex,
-  Grid,
-  Heading,
-  Text,
-} from "@radix-ui/themes";
+import { Box, Grid, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
-import GlanceCard from "./GlanceCard";
 import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
+import GlanceCard from "./GlanceCard";
 
 function App() {
   return (
-    <Box>
+    <Box className="m-10">
       <Text className="text-5xl" weight="bold">
         Hi, User 👋
       </Text>

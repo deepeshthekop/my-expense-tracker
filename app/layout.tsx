@@ -1,8 +1,10 @@
+import { Box, Grid, Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "@radix-ui/themes/styles.css";
-import { Container, Grid, Separator, Theme } from "@radix-ui/themes";
+import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,24 +22,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Theme appearance="dark">
-          <Grid
-            areas={{
-              initial: '"main"',
-              lg: '"aside main"',
-            }}
-            columns={{
-              initial: "1fr",
-              lg: "280px 1fr",
-            }}
-            className="min-h-screen"
-          >
-            <Sidebar />
-            <Container gridArea="main" className="p-10">
-              {children}
-            </Container>
-          </Grid>
-        </Theme>
+        <ThemeProvider attribute="class">
+          <Theme accentColor="pink" radius="large">
+            <Grid
+              areas={{
+                initial: '"main"',
+                lg: '"aside main"',
+              }}
+              columns={{
+                initial: "1fr",
+                lg: "280px 1fr",
+              }}
+              className="min-h-screen"
+            >
+              <Sidebar />
+              <Box gridArea="main">
+                <Navbar />
+                {children}
+              </Box>
+            </Grid>
+          </Theme>
+        </ThemeProvider>
       </body>
     </html>
   );
