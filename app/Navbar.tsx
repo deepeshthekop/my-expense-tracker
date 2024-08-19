@@ -1,25 +1,28 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Text,
-  useThemeContext,
-} from "@radix-ui/themes";
+import { SunIcon } from "@radix-ui/react-icons";
+import { Box, Button, Container, Flex, Text } from "@radix-ui/themes";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useState } from "react";
+import { FiHome, FiPieChart } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
+import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import Logo from "./Logo";
-import { FiHome, FiPieChart } from "react-icons/fi";
-import { TbCashRegister } from "react-icons/tb";
-import { SunIcon } from "@radix-ui/react-icons";
-import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import { link } from "fs";
+
+const navItems = [
+  { label: "Dashboard", icon: <FiHome size={22} />, link: "/" },
+  { label: "Expenses", icon: <TbCashRegister size={22} />, link: "/expenses" },
+  { label: "Budgets", icon: <FiPieChart size={22} />, link: "/budgets" },
+];
 
 function Navbar() {
+  const currentPath = usePathname();
+
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -42,30 +45,26 @@ function Navbar() {
           direction="left"
           overlayOpacity={0.7}
           className="border-r bg-[var(--gray-2)] border-[var(--gray-5)]"
+          size={300}
         >
           <Container className="p-5">
             <Logo />
-            <Flex direction="column" gapY="5" className="my-5">
-              <Link
-                href="/"
-                className="flex items-center space-x-2 transition-colors text-[var(--gray-11)] hover:text-[var(--accent-9)]"
-              >
-                <FiHome size={22} /> <Text className="text-lg">Dashboard</Text>
-              </Link>
-              <Link
-                href="/expenses"
-                className="flex items-center space-x-2 transition-colors text-[var(--gray-11)] hover:text-[var(--accent-9)]"
-              >
-                <TbCashRegister size={22} />
-                <Text className="text-lg">Expenses</Text>
-              </Link>
-              <Link
-                href="/budgets"
-                className="flex items-center space-x-2 transition-colors text-[var(--gray-11)] hover:text-[var(--accent-9)]"
-              >
-                <FiPieChart size={22} />{" "}
-                <Text className="text-lg">Budgets</Text>
-              </Link>
+            <Flex direction="column" gapY="3" className="my-5">
+              {navItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.link}
+                  className={`flex items-center space-x-2 p-3 rounded-2xl ${
+                    currentPath === item.link
+                      ? "bg-[var(--gray-5)] text-[var(--gray-12)]"
+                      : "text-[var(--gray-11)]"
+                  } transition-colors hover:text-[var(--accent-9)]`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.icon}
+                  <Text className="text-lg">{item.label}</Text>
+                </Link>
+              ))}
             </Flex>
           </Container>
         </Drawer>
