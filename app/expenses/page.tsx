@@ -1,7 +1,6 @@
 import prisma from "@/prisma/client";
-import { Box, Button, Dialog, Heading, Table } from "@radix-ui/themes";
+import { Box, Heading, Table } from "@radix-ui/themes";
 import ExpenseBadge from "./ExpenseBadge";
-import { MdOutlineAddToPhotos } from "react-icons/md";
 import NewExpenseDialog from "./NewExpenseDialog";
 
 async function ExpensesPage() {

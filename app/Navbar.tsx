@@ -1,6 +1,6 @@
 "use client";
 
-import { SunIcon } from "@radix-ui/react-icons";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Box, Button, Container, Flex, Text } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -72,7 +72,7 @@ function Navbar() {
           variant="soft"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          <SunIcon />
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </Button>
       </Flex>
     </Box>

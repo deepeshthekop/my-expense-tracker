@@ -3,12 +3,12 @@ import { Category } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 
-const ExpenseSchema = z.object({
+export const ExpenseSchema = z.object({
+  amount: z.coerce.number().min(0.1, "Amount is required"),
   title: z
     .string()
     .min(1, "Title is required")
     .max(128, "Title cannot be more than 128 characters."),
-  amount: z.number().min(0, "Amount is required"),
   category: z.nativeEnum(Category).optional(),
 });
 
@@ -27,5 +27,5 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json(body);
+  return NextResponse.json(newExpense);
 }
