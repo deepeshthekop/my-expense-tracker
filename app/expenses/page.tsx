@@ -1,7 +1,8 @@
 import prisma from "@/prisma/client";
-import { Box, Heading, Table } from "@radix-ui/themes";
+import { Box, Button, Heading, Table } from "@radix-ui/themes";
+import Link from "next/link";
+import { MdOutlineAddToPhotos } from "react-icons/md";
 import ExpenseBadge from "./ExpenseBadge";
-import NewExpenseDialog from "./NewExpenseDialog";
 
 async function ExpensesPage() {
   const expenses = await prisma.expense.findMany();
@@ -12,7 +13,10 @@ async function ExpensesPage() {
         Expenses
       </Heading>
       <Box className="mt-5 space-y-3">
-        <NewExpenseDialog />
+        <Button className="cursor-pointer">
+          <MdOutlineAddToPhotos />
+          <Link href="/expenses/new">Add Expense</Link>
+        </Button>
         <Table.Root variant="surface">
           <Table.Header>
             <Table.Row>

@@ -1,13 +1,15 @@
 "use client";
 
+import { ExpenseSchema } from "@/app/api/expenses/route";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category, Expense } from "@prisma/client";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { Category } from "@prisma/client";
 import {
+  Box,
   Button,
-  Dialog,
+  Card,
   DropdownMenu,
   Flex,
+  Heading,
   Text,
   TextArea,
   TextField,
@@ -16,56 +18,29 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { MdOutlineAddToPhotos } from "react-icons/md";
 import { z } from "zod";
-import { ExpenseSchema } from "../api/expenses/route";
 
 type ExpenseFormData = z.infer<typeof ExpenseSchema>;
 
-function NewExpenseDialog() {
-  const [isOpen, setIsOpen] = useState(false);
+function NewExpensePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [titleText, setTitleText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | null>();
-
-  const closeDialog = () => {
-    if (!isLoading) {
-      reset();
-      setIsOpen(false);
-    }
-  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<ExpenseFormData>({
     resolver: zodResolver(ExpenseSchema),
   });
 
   return (
-    <Dialog.Root open={isOpen}>
-      <Dialog.Trigger>
-        <Button
-          className="cursor-pointer"
-          onClick={() => {
-            setIsOpen(true);
-            setTitleText("");
-            setSelectedCategory(null);
-          }}
-        >
-          <MdOutlineAddToPhotos /> Add Expense
-        </Button>
-      </Dialog.Trigger>
-      <Dialog.Content
-        onEscapeKeyDown={closeDialog}
-        onInteractOutside={closeDialog}
-        className="w-fit"
-        aria-describedby={undefined}
-      >
-        <Dialog.Title>New Expense</Dialog.Title>
-
+    <Box className="m-10">
+      <Heading size="8" className="mt-10">
+        New Expense
+      </Heading>
+      <Card size="3" className="mx-auto mt-10 min-w-fit max-w-[400px]">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger disabled={isLoading} className="my-2">
             <Button variant="soft">
@@ -89,7 +64,7 @@ function NewExpenseDialog() {
         </DropdownMenu.Root>
 
         <form
-          className="mt-1"
+          className="mt-5"
           onSubmit={handleSubmit(async (data) => {
             setIsLoading(true);
 
@@ -103,10 +78,8 @@ function NewExpenseDialog() {
 
             await axios
               .post("/api/expenses", newExpense)
-              .then((expense) => {
-                closeDialog();
+              .then(() => {
                 toast.success("Expense has been added!", {
-                  icon: <CheckIcon scale="5" />,
                   duration: 3000,
                 });
               })
@@ -116,14 +89,15 @@ function NewExpenseDialog() {
               .finally(() => setIsLoading(false));
           })}
         >
-          <Flex direction="column" gapY="3">
+          <Flex direction="column" gapY="4">
             <label>
-              <Text className="text-sm">Amount</Text>
+              <Text className="text-md">Amount</Text>
               <TextField.Root
                 {...register("amount")}
                 type="number"
                 placeholder="Your expense"
                 disabled={isLoading}
+                size="3"
               />
               <Text color="red" size="1">
                 {errors.amount?.message}
@@ -131,7 +105,7 @@ function NewExpenseDialog() {
             </label>
             <label>
               <Flex justify="between" align="baseline" className="w-full">
-                <Text className="text-sm">Title</Text>
+                <Text className="text-md">Title</Text>
                 <Text className="text-xs text-[var(--gray-9)]">
                   {titleText.length} Characters
                 </Text>
@@ -140,37 +114,27 @@ function NewExpenseDialog() {
                 {...register("title")}
                 onChange={(e) => setTitleText(e.target.value)}
                 variant="surface"
-                placeholder="Your expense title."
+                placeholder="Your expense title"
                 disabled={isLoading}
-                className="w-64 h-32"
+                className="w-full h-32"
+                size="3"
               />
               <Text color="red" size="1">
                 {errors.title?.message}
               </Text>
             </label>
-            <Flex justify="end" gapX="3">
-              <Button
-                type="button"
-                color="gray"
-                variant="soft"
-                disabled={isLoading}
-                onClick={closeDialog}
-              >
-                Cancel
-              </Button>
-              <Button loading={isLoading}>Add</Button>
-            </Flex>
+            <Button loading={isLoading}>Add</Button>
           </Flex>
         </form>
-      </Dialog.Content>
+      </Card>
       <Toaster
         toastOptions={{
           className:
             "border border-[var(--gray-5)] bg-[var(--gray-2)] text-[var(--gray-12)]",
         }}
       />
-    </Dialog.Root>
+    </Box>
   );
 }
 
-export default NewExpenseDialog;
+export default NewExpensePage;

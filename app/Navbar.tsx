@@ -4,6 +4,7 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Box, Button, Container, Flex, Text } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FiHome, FiPieChart } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
@@ -11,8 +12,7 @@ import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
-import { link } from "fs";
+import dynamic from "next/dynamic";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome size={22} />, link: "/" },
@@ -39,13 +39,15 @@ function Navbar() {
         >
           <IoMdMenu size={20} />
         </Button>
+
         <Drawer
           open={isOpen}
           onClose={() => setIsOpen(false)}
           direction="left"
-          overlayOpacity={0.7}
-          className="border-r bg-[var(--gray-2)] border-[var(--gray-5)]"
+          overlayOpacity={0.8}
+          className="h-full border-r bg-[var(--gray-2)] border-[var(--gray-5)]"
           size={300}
+          lockBackgroundScroll
         >
           <Container className="p-5">
             <Logo />
@@ -68,6 +70,7 @@ function Navbar() {
             </Flex>
           </Container>
         </Drawer>
+
         <Button
           variant="soft"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
