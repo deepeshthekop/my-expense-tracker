@@ -35,11 +35,7 @@ async function ExpensesPage() {
                 </Table.Cell>
                 <Table.Cell>
                   <span className="md:hidden">
-                    {expense.date.toLocaleString("en-GB", {
-                      day: "numeric",
-                      month: "numeric",
-                      year: "numeric",
-                    })}
+                    {expense.date.toLocaleDateString("en-GB")}
                   </span>
                   <span className="hidden md:block">
                     {expense.date.toDateString()}
