@@ -32,10 +32,20 @@ async function ExpensesPage() {
             {expenses.map((expense) => (
               <Table.Row key={expense.id}>
                 <Table.Cell className="hidden md:table-cell">
-                  {expense.title}
+                  <Link
+                    className="md:border-b border-dashed border-[var(--gray-12)]"
+                    href={`expenses/${expense.id}`}
+                  >
+                    {expense.title}
+                  </Link>
                 </Table.Cell>
                 <Table.Cell className="text-nowrap">
-                  ${expense.amount}
+                  <Link
+                    href={`expenses/${expense.id}`}
+                    className="border-b border-dashed border-[var(--gray-12)] md:border-none"
+                  >
+                    ${expense.amount}
+                  </Link>
                 </Table.Cell>
                 <Table.Cell>
                   <span className="md:hidden">

@@ -50,4 +50,6 @@ async function App() {
   );
 }
 
+export const dynamic = "force-dynamic";
+
 export default App;
