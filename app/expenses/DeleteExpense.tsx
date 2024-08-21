@@ -3,9 +3,9 @@
 import { Expense } from "@prisma/client";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 function DeleteExpenseButton({ expense }: { expense: Expense }) {
@@ -19,7 +19,6 @@ function DeleteExpenseButton({ expense }: { expense: Expense }) {
       .delete(`/api/expenses/${expense.id}`)
       .then(() => {
         router.push("/expenses");
-        router.refresh();
       })
       .catch(() => toast.error("An unexpected error occured."))
       .finally(() => setIsLoading(false));

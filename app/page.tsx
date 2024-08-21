@@ -5,10 +5,11 @@ import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
+import ExpensesChart from "./ExpensesChart";
 
 async function App() {
   const results = await prisma.expense.findMany({
-    take: 5,
+    take: 7,
     orderBy: {
       id: "desc",
     },
@@ -40,7 +41,10 @@ async function App() {
             icon={<IoWalletOutline size={32} />}
           />
         </Grid>
-        <Grid columns={{ initial: "1", md: "3" }} gap="5">
+        <Grid columns={{ initial: "1", md: "3" }} gap="5" className="h-[300px]">
+          <Box gridColumn={{ initial: "1", md: "span 2" }}>
+            <ExpensesChart data={[...results].reverse()} />
+          </Box>
           <Box gridColumn={{ initial: "1", md: "3" }}>
             <RecentExpensesCard expenses={results} />
           </Box>

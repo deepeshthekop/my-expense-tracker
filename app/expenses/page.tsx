@@ -5,7 +5,11 @@ import { MdOutlineAddToPhotos } from "react-icons/md";
 import ExpenseBadge from "./ExpenseBadge";
 
 async function ExpensesPage() {
-  const expenses = await prisma.expense.findMany();
+  const expenses = await prisma.expense.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
 
   return (
     <Box className="m-10">

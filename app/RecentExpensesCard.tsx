@@ -4,11 +4,15 @@ import ExpenseBadge from "./expenses/ExpenseBadge";
 
 function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
   return (
-    <Card className="p-5 space-y-4">
+    <Card className="p-5 space-y-4 h-full">
       <Text as="p" className="text-xl">
         Recent Expenses
       </Text>
-      <ScrollArea className="h-60" scrollbars="vertical" type="always">
+      <ScrollArea
+        className="min-h-fit max-h-60"
+        scrollbars="vertical"
+        type="auto"
+      >
         <Box className="mr-4 space-y-3">
           {expenses.map((expense) => (
             <Card key={expense.id}>

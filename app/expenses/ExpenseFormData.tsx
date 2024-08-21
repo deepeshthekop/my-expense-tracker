@@ -12,7 +12,7 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -96,8 +96,10 @@ function ExpenseFormData({ expense }: { expense?: Expense }) {
                 });
                 if (!expense) reset();
               })
-              .catch((e: AxiosError) => {
-                console.log(e.message);
+              .catch(() => {
+                toast.error("There was an unexpected error.", {
+                  duration: 3000,
+                });
               })
               .finally(() => setIsLoading(false));
           })}
