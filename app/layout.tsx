@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class">
-          <Theme accentColor="pink" radius="large">
+          <Theme accentColor="purple" radius="large">
             <Grid
               areas={{
                 initial: '"main"',
