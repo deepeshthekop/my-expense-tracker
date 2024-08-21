@@ -19,7 +19,12 @@ function GlanceCard({
           <Text as="p" className="text-xl">
             {title}
           </Text>
-          <Text as="p" className="text-3xl" weight="bold">
+          <Text
+            as="p"
+            color={amount < 0 ? "red" : undefined}
+            className="text-3xl"
+            weight="bold"
+          >
             $ <CountUp end={amount} duration={2} />
           </Text>
         </Flex>

@@ -13,15 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Expense{
-  id Int @id @default(autoincrement())
-  amount Float @default(0.0)
-  date DateTime @default(now())
-  title String
+model Expense {
+  id       Int       @id @default(autoincrement())
+  amount   Float     @default(0.0)
+  date     DateTime  @default(now())
+  title    String
   category Category?
 }
 
-enum Category{
+model Budget {
+  id       Int      @id @default(autoincrement())
+  capacity Float    @default(0.0)
+  type     Category
+}
+
+enum Category {
   RENT
   UTILITIES
   MAINTAINENCE
