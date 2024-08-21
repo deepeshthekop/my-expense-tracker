@@ -4,7 +4,7 @@ import ExpenseBadge from "./expenses/ExpenseBadge";
 
 function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
   return (
-    <Card className="p-5 space-y-4 h-full">
+    <Card className="p-5 space-y-4 h-[350px]">
       <Text as="p" className="text-xl">
         Recent Expenses
       </Text>

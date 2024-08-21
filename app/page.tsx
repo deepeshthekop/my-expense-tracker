@@ -41,7 +41,7 @@ async function App() {
             icon={<IoWalletOutline size={32} />}
           />
         </Grid>
-        <Grid columns={{ initial: "1", md: "3" }} gap="5" className="h-[300px]">
+        <Grid columns={{ initial: "1", md: "3" }} gap="5">
           <Box gridColumn={{ initial: "1", md: "span 2" }}>
             <ExpensesChart data={[...results].reverse()} />
           </Box>
