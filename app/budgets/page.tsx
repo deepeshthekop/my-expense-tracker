@@ -57,4 +57,6 @@ async function budgetsPage() {
   );
 }
 
+export const dynamic = "force-dynamic";
+
 export default budgetsPage;

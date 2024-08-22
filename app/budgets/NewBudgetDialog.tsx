@@ -4,6 +4,7 @@ import { Budget, Category } from "@prisma/client";
 import {
   Box,
   Button,
+  Callout,
   Dialog,
   DropdownMenu,
   Flex,
@@ -11,13 +12,12 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaDollarSign, FaPlus } from "react-icons/fa";
 import { BudgetSchema } from "../api/budgets/route";
-
-const allBudgets = Object.values(Category);
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
   const usedBudgets = budgetsInUse.map((budgetInUse) => budgetInUse.type);
@@ -33,6 +33,8 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
   const [selectedBudget, setSelectedBudget] = useState(availableBudgets[0]);
   const [amount, setAmount] = useState("");
   const [open, setIsOpen] = useState(false);
+  const [error, setError] = useState<string | null>();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const addBudget = async () => {
@@ -43,17 +45,18 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
 
     const validation = BudgetSchema.safeParse(data);
 
-    if (!validation.success)
-      console.log(validation.error.flatten().fieldErrors);
+    if (!validation.success) setError("Please enter a valid amount.");
     else {
+      setError(null);
+      setIsLoading(true);
       await axios
         .post("/api/budgets/", data)
         .then(() => {
           router.refresh();
           setIsOpen(false);
         })
-        .catch((e) => console.log(e))
-        .finally(() => {});
+        .catch((e: AxiosError) => setError(e.message))
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -67,6 +70,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
           className="border-2 border-dashed w-full h-[150px]"
           onClick={() => {
             setIsOpen(true);
+            setAmount("");
             setSelectedBudget(availableBudgets[0]);
           }}
         >
@@ -83,9 +87,17 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
       >
         <Dialog.Title>New Budget</Dialog.Title>
         <Box>
+          {error && (
+            <Callout.Root color="red" className="p-2 text-xs">
+              <Callout.Icon>
+                <ExclamationTriangleIcon />
+              </Callout.Icon>
+              <Callout.Text>{error}</Callout.Text>
+            </Callout.Root>
+          )}
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>
-              <Button variant="soft" className="mt-2">
+              <Button variant="soft" className="mt-2" disabled={isLoading}>
                 {selectedBudget} <DropdownMenu.TriggerIcon />
               </Button>
             </DropdownMenu.Trigger>
@@ -111,10 +123,17 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
           </TextField.Root>
         </Box>
         <Flex justify="end" gap="2" className="mt-7">
-          <Button color="gray" variant="soft" onClick={() => setIsOpen(false)}>
+          <Button
+            color="gray"
+            variant="soft"
+            disabled={isLoading}
+            onClick={() => setIsOpen(false)}
+          >
             Cancel
           </Button>
-          <Button onClick={addBudget}>Add</Button>
+          <Button onClick={addBudget} loading={isLoading}>
+            Add
+          </Button>
         </Flex>
       </Dialog.Content>
     </Dialog.Root>
