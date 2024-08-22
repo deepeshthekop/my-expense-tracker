@@ -33,7 +33,6 @@ export default function RootLayout({
                 initial: "1fr",
                 lg: "280px 1fr",
               }}
-              className="min-h-screen"
             >
               <Sidebar />
               <Box gridArea="main">

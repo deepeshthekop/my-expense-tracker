@@ -28,7 +28,7 @@ function Navbar() {
   return (
     <Box
       gridArea="nav"
-      className="h-[65px] border-b bg-[var(--gray-2)] border-[var(--gray-5)]"
+      className="h-[65px] border-b bg-[var(--gray-2)] border-[var(--gray-5)] sticky top-0 z-20"
     >
       <Flex justify="between" align="center" className="h-full mx-5">
         <Button

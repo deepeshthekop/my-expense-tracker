@@ -18,7 +18,7 @@ function Sidebar() {
   return (
     <Container
       gridArea="aside"
-      className="hidden border-r bg-[var(--gray-2)] border-[var(--gray-5)] xl:block"
+      className="hidden border-r bg-[var(--gray-2)] border-[var(--gray-5)] xl:block h-screen sticky top-0 z-20"
     >
       <Flex direction="column" justify="center">
         <Box className="border-b h-[65px] p-5 border-[var(--gray-5)]">

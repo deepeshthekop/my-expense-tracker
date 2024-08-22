@@ -1,6 +1,7 @@
-import { Card, Flex, Box, Progress, Text } from "@radix-ui/themes";
+import { Budget, Expense } from "@prisma/client";
+import { Box, Card, Flex, Progress, Text } from "@radix-ui/themes";
+import Link from "next/link";
 import { ExpenseIcon } from "../expenses/ExpenseBadge";
-import { Budget, Category, Expense } from "@prisma/client";
 
 interface Props {
   categoricalExpense: {
@@ -18,36 +19,38 @@ function BudgetCard(categoricalExpense: Props) {
   );
 
   return (
-    <Card className="space-y-5">
-      <Flex align="center" justify="between">
-        <Flex align="center" gap="2">
-          <ExpenseIcon category={category.type} />
-          <Box className="flex flex-col">
-            <Text weight="bold" className="text-md">
-              {category.type.charAt(0).toUpperCase() +
-                category.type.slice(1).toLowerCase()}
-            </Text>
-            <Text className="text-sm text-[var(--gray-12)]">
-              {count} {count == 1 ? "Item" : "Items"}
-            </Text>
-          </Box>
-        </Flex>
-        <Text weight="bold" className="text-xl text-[var(--accent-11)]">
-          $ {category.capacity}
-        </Text>
-      </Flex>
-      <Flex direction="column" gap="2">
-        <Flex justify="between">
-          <Text className="text-sm text-[var(--gray-11)]">
-            $ {totalExpense} Spend
-          </Text>
-          <Text className="text-sm text-[var(--gray-11)]">
-            $ {category.capacity - totalExpense} Remaining
+    <Link href={`/budgets/${category.id}`}>
+      <Card className="space-y-5 cursor-pointer transition-colors hover:bg-[var(--gray-4)]">
+        <Flex align="center" justify="between">
+          <Flex align="center" gap="2">
+            <ExpenseIcon category={category.type} />
+            <Box className="flex flex-col">
+              <Text weight="bold" className="text-md">
+                {category.type.charAt(0).toUpperCase() +
+                  category.type.slice(1).toLowerCase()}
+              </Text>
+              <Text className="text-sm text-[var(--gray-12)]">
+                {count} {count == 1 ? "Item" : "Items"}
+              </Text>
+            </Box>
+          </Flex>
+          <Text weight="bold" className="text-xl text-[var(--accent-11)]">
+            $ {category.capacity}
           </Text>
         </Flex>
-        <Progress value={(totalExpense / category.capacity) * 100} />
-      </Flex>
-    </Card>
+        <Flex direction="column" gap="2">
+          <Flex justify="between">
+            <Text className="text-sm text-[var(--gray-11)]">
+              $ {totalExpense} Spend
+            </Text>
+            <Text className="text-sm text-[var(--gray-11)]">
+              $ {category.capacity - totalExpense} Remaining
+            </Text>
+          </Flex>
+          <Progress value={(totalExpense / category.capacity) * 100} />
+        </Flex>
+      </Card>
+    </Link>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Category } from "@prisma/client";
 import { Avatar, Badge, Text } from "@radix-ui/themes";
 
-const colorMap: Record<
+export const colorMap: Record<
   Category,
   {
     label: string;

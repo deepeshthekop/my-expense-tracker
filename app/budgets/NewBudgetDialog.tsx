@@ -1,6 +1,7 @@
 "use client";
 
 import { Budget, Category } from "@prisma/client";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Button,
@@ -15,9 +16,9 @@ import {
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaDollarSign, FaPlus } from "react-icons/fa";
+import { BsCurrencyDollar } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa";
 import { BudgetSchema } from "../api/budgets/route";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
   const usedBudgets = budgetsInUse.map((budgetInUse) => budgetInUse.type);
@@ -67,7 +68,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
       <Dialog.Trigger>
         <IconButton
           variant="soft"
-          className="border-2 border-dashed w-full h-[150px]"
+          className="border-2 border-dashed w-full h-[150px] cursor-pointer transition-colors"
           onClick={() => {
             setIsOpen(true);
             setAmount("");
@@ -118,7 +119,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
             onChange={(e) => setAmount(e.target.value)}
           >
             <TextField.Slot>
-              <FaDollarSign />
+              <BsCurrencyDollar />
             </TextField.Slot>
           </TextField.Root>
         </Box>
