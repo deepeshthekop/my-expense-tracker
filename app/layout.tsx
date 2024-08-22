@@ -1,4 +1,4 @@
-import { Box, Grid, Theme, ThemePanel } from "@radix-ui/themes";
+import { Box, Grid, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";

@@ -3,9 +3,9 @@ import { Box, Grid, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
 import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
+import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import ExpensesChart from "./ExpensesChart";
 
 async function App() {
   const expenses = await prisma.expense.findMany({

@@ -1,7 +1,6 @@
-import { Box, Heading } from "@radix-ui/themes";
-import React from "react";
-import ExpenseFormData from "../ExpenseFormData";
 import prisma from "@/prisma/client";
+import { Box, Heading } from "@radix-ui/themes";
+import ExpenseFormData from "../ExpenseFormData";
 
 async function SingleExpensePage({ params }: { params: { id: string } }) {
   const expense = await prisma.expense.findUnique({

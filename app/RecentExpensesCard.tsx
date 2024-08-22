@@ -1,5 +1,5 @@
 import { Expense } from "@prisma/client";
-import { Card, Flex, ScrollArea, Box, Text } from "@radix-ui/themes";
+import { Box, Card, Flex, ScrollArea, Text } from "@radix-ui/themes";
 import ExpenseBadge from "./expenses/ExpenseBadge";
 
 function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {

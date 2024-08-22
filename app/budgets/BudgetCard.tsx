@@ -18,6 +18,8 @@ function BudgetCard(categoricalExpense: Props) {
     [0, 0]
   );
 
+  const isOverBudget = totalExpense > category.capacity;
+
   return (
     <Link href={`/budgets/${category.id}`}>
       <Card className="space-y-5 cursor-pointer transition-colors hover:bg-[var(--gray-4)]">
@@ -43,11 +45,19 @@ function BudgetCard(categoricalExpense: Props) {
             <Text className="text-sm text-[var(--gray-11)]">
               $ {totalExpense} Spend
             </Text>
-            <Text className="text-sm text-[var(--gray-11)]">
+            <Text
+              className={`text-sm ${
+                isOverBudget ? "text-red-500" : "text-[var(--gray-11)]"
+              }`}
+            >
               $ {category.capacity - totalExpense} Remaining
             </Text>
           </Flex>
-          <Progress value={(totalExpense / category.capacity) * 100} />
+          <Progress
+            value={
+              isOverBudget ? 100 : (totalExpense / category.capacity) * 100
+            }
+          />
         </Flex>
       </Card>
     </Link>

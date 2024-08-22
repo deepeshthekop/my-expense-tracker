@@ -2,10 +2,10 @@
 
 import { Box, Container, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiHome, FiPieChart } from "react-icons/fi";
 import { TbCashRegister } from "react-icons/tb";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome />, link: "/" },
