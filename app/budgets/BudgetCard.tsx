@@ -1,40 +1,51 @@
 import { Card, Flex, Box, Progress, Text } from "@radix-ui/themes";
 import { ExpenseIcon } from "../expenses/ExpenseBadge";
-import { Category } from "@prisma/client";
+import { Budget, Category, Expense } from "@prisma/client";
 
-function BudgetCard({
-  category,
-  total,
-  spend,
-}: {
-  category: Category;
-  total: number;
-  spend: number;
-}) {
+interface Props {
+  categoricalExpense: {
+    category: Budget;
+    expenses: Expense[];
+  };
+}
+
+function BudgetCard(categoricalExpense: Props) {
+  const { category, expenses } = categoricalExpense.categoricalExpense;
+
+  const [totalExpense, count] = expenses.reduce(
+    (a, expense, index) => [a[0] + expense.amount, index + 1],
+    [0, 0]
+  );
+
   return (
     <Card className="space-y-5">
       <Flex align="center" justify="between">
         <Flex align="center" gap="2">
-          <ExpenseIcon category={category} />
-          <Box>
-            <Text weight="medium" className="text-lg">
-              {category.charAt(0).toUpperCase() +
-                category.slice(1).toLowerCase()}
+          <ExpenseIcon category={category.type} />
+          <Box className="flex flex-col">
+            <Text weight="bold" className="text-md">
+              {category.type.charAt(0).toUpperCase() +
+                category.type.slice(1).toLowerCase()}
+            </Text>
+            <Text className="text-sm text-[var(--gray-12)]">
+              {count} {count == 1 ? "Item" : "Items"}
             </Text>
           </Box>
         </Flex>
         <Text weight="bold" className="text-xl text-[var(--accent-11)]">
-          $ {total}
+          $ {category.capacity}
         </Text>
       </Flex>
       <Flex direction="column" gap="2">
         <Flex justify="between">
-          <Text className="text-sm text-[var(--gray-11)]">$ {spend} Spend</Text>
           <Text className="text-sm text-[var(--gray-11)]">
-            $ {total - spend} Remaining
+            $ {totalExpense} Spend
+          </Text>
+          <Text className="text-sm text-[var(--gray-11)]">
+            $ {category.capacity - totalExpense} Remaining
           </Text>
         </Flex>
-        <Progress value={25} />
+        <Progress value={(totalExpense / category.capacity) * 100} />
       </Flex>
     </Card>
   );

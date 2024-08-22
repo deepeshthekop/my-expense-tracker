@@ -24,7 +24,7 @@ model Expense {
 model Budget {
   id       Int      @id @default(autoincrement())
   capacity Float    @default(0.0)
-  type     Category
+  type     Category @unique
 }
 
 enum Category {
