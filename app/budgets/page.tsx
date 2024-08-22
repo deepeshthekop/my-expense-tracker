@@ -1,8 +1,8 @@
-import { Box, Flex, Grid, Heading, IconButton, Text } from "@radix-ui/themes";
-import { FaPlus } from "react-icons/fa";
-import BudgetCard from "./BudgetCard";
 import prisma from "@/prisma/client";
 import { Budget, Category, Expense } from "@prisma/client";
+import { Box, Grid, Heading } from "@radix-ui/themes";
+import BudgetCard from "./BudgetCard";
+import NewBudgetDialog from "./NewBudgetDialog";
 
 async function budgetsPage() {
   let budgets: Budget[] = [];
@@ -45,19 +45,12 @@ async function budgetsPage() {
         gap="5"
         className="mt-5"
       >
-        <Box gridColumn="span 1">
-          <IconButton
-            variant="soft"
-            className="border-2 border-dashed w-full h-[150px]"
-          >
-            <Flex direction="column" align="center" gap="2">
-              <FaPlus size={32} />
-              <Text>Add New Budget</Text>
-            </Flex>
-          </IconButton>
-        </Box>
+        <NewBudgetDialog budgetsInUse={budgets} />
         {categoricalExpenses.map((categoricalExpense) => (
-          <BudgetCard categoricalExpense={categoricalExpense} />
+          <BudgetCard
+            key={categoricalExpense.category.type}
+            categoricalExpense={categoricalExpense}
+          />
         ))}
       </Grid>
     </Box>
