@@ -1,8 +1,8 @@
 import { Box, Button, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
-import { getExpenses } from "../utils";
-import ExpensesTable from "./ExpensesTable";
+import { getExpenses } from "@/app/main/utils";
+import ExpensesTable from "../../components/ExpensesTable";
 
 async function ExpensesPage() {
   const expenses = await getExpenses();
@@ -15,7 +15,7 @@ async function ExpensesPage() {
       <Box className="mt-5 space-y-3">
         <Button className="cursor-pointer">
           <MdOutlineAddToPhotos />
-          <Link href="/expenses/new">Add Expense</Link>
+          <Link href="/main/expenses/new">Add Expense</Link>
         </Button>
         <ExpensesTable expenses={expenses} />
       </Box>

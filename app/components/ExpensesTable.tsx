@@ -26,12 +26,6 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
         {expenses.map((expense) => (
           <Table.Row key={expense.id}>
             <Table.Cell py="5">
-              {/* <span className="md:hidden">
-                {expense.date.toLocaleDateString("en-GB",)}
-              </span>
-              <span className="hidden md:block">
-                {expense.date.toDateString()}
-              </span> */}
               {expense.date.toLocaleDateString("en-GB", {
                 month: "short",
                 day: "numeric",
@@ -40,7 +34,7 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
             <Table.Cell py="5" className="hidden md:table-cell">
               <Link
                 className="md:border-b border-dashed border-[var(--gray-12)]"
-                href={`/expenses/${expense.id}`}
+                href={`/main/expenses/${expense.id}`}
               >
                 {expense.title}
               </Link>
@@ -50,7 +44,7 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
             </Table.Cell>
             <Table.Cell py="5" className="text-nowrap">
               <Link
-                href={`/expenses/${expense.id}`}
+                href={`/main/expenses/${expense.id}`}
                 className="border-b border-dashed border-[var(--gray-12)] md:border-none"
               >
                 ${expense.amount}

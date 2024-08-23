@@ -11,12 +11,16 @@ import { IoMdMenu } from "react-icons/io";
 import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import Logo from "./Logo";
+import Logo from "@/app/components/Logo";
 
 const navItems = [
-  { label: "Dashboard", icon: <FiHome size={22} />, link: "/" },
-  { label: "Expenses", icon: <TbCashRegister size={22} />, link: "/expenses" },
-  { label: "Budgets", icon: <FiPieChart size={22} />, link: "/budgets" },
+  { label: "Dashboard", icon: <FiHome size={22} />, link: "/main" },
+  {
+    label: "Expenses",
+    icon: <TbCashRegister size={22} />,
+    link: "/main/expenses",
+  },
+  { label: "Budgets", icon: <FiPieChart size={22} />, link: "/main/budgets" },
 ];
 
 function Navbar() {

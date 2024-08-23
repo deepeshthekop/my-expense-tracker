@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
-import { BudgetSchema } from "../api/budgets/route";
+import { BudgetSchema } from "@/app/api/budgets/route";
 
 function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
   const usedBudgets = budgetsInUse.map((budgetInUse) => budgetInUse.type);

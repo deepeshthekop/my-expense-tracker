@@ -1,11 +1,9 @@
-import { Box, Grid, Theme } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,22 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class">
           <Theme accentColor="purple" radius="large">
-            <Grid
-              areas={{
-                initial: '"main"',
-                lg: '"aside main"',
-              }}
-              columns={{
-                initial: "1fr",
-                lg: "280px 1fr",
-              }}
-            >
-              <Sidebar />
-              <Box gridArea="main">
-                <Navbar />
-                {children}
-              </Box>
-            </Grid>
+            {children}
           </Theme>
         </ThemeProvider>
       </body>

@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import DeleteExpenseButton from "./DeleteExpense";
-import ExpenseBadge from "./ExpenseBadge";
+import ExpenseBadge from "../../components/ExpenseBadge";
 
 type ExpenseFormData = z.infer<typeof ExpenseSchema>;
 

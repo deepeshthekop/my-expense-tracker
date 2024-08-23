@@ -5,12 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiHome, FiPieChart } from "react-icons/fi";
 import { TbCashRegister } from "react-icons/tb";
-import Logo from "./Logo";
+import Logo from "@/app/components/Logo";
 
 const navItems = [
-  { label: "Dashboard", icon: <FiHome />, link: "/" },
-  { label: "Expenses", icon: <TbCashRegister />, link: "/expenses" },
-  { label: "Budgets", icon: <FiPieChart />, link: "/budgets" },
+  { label: "Dashboard", icon: <FiHome />, link: "/main" },
+  { label: "Expenses", icon: <TbCashRegister />, link: "/main/expenses" },
+  { label: "Budgets", icon: <FiPieChart />, link: "/main/budgets" },
 ];
 
 function Sidebar() {

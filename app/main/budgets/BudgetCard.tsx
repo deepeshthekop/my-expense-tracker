@@ -1,7 +1,7 @@
 import { Budget, Expense } from "@prisma/client";
 import { Box, Card, Flex, Progress, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import { ExpenseIcon } from "../expenses/ExpenseBadge";
+import { ExpenseIcon } from "../../components/ExpenseBadge";
 
 interface Props {
   categoricalExpense: {
@@ -21,7 +21,7 @@ function BudgetCard(categoricalExpense: Props) {
   const isOverBudget = totalExpense > category.capacity;
 
   return (
-    <Link href={`/budgets/${category.id}`}>
+    <Link href={`/main/budgets/${category.id}`}>
       <Card className="space-y-5 cursor-pointer transition-colors hover:bg-[var(--gray-4)]">
         <Flex align="center" justify="between">
           <Flex align="center" gap="2">
