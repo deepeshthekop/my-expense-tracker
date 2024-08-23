@@ -2,13 +2,8 @@
 
 import { BudgetPatchSchema } from "@/app/api/budgets/[id]/route";
 import { Budget } from "@prisma/client";
+import { ExclamationTriangleIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import {
-  ExclamationTriangleIcon,
-  Pencil1Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons";
-import {
-  AlertDialog,
   Box,
   Button,
   Callout,
@@ -17,10 +12,8 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import axios, { AxiosError } from "axios";
-import { error } from "console";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { BsCurrencyDollar } from "react-icons/bs";
 
 function EditBudgetButton({ budget }: { budget: Budget }) {

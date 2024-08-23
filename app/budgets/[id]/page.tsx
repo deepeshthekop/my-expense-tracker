@@ -1,9 +1,8 @@
 import { colorMap } from "@/app/expenses/ExpenseBadge";
 import ExpensesTable from "@/app/expenses/ExpensesTable";
 import prisma from "@/prisma/client";
-import { Box, Button, Flex, Heading, Progress, Text } from "@radix-ui/themes";
+import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
-import { Pencil1Icon } from "@radix-ui/react-icons";
 import EditBudgetButton from "./EditBudgetDialog";
 
 async function SingleBudgetPage({ params }: { params: { id: string } }) {

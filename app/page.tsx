@@ -1,4 +1,3 @@
-import prisma from "@/prisma/client";
 import { Box, Grid, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
 import { IoMdPaper } from "react-icons/io";
@@ -6,17 +5,14 @@ import { IoWalletOutline } from "react-icons/io5";
 import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
+import { getBudgets, getCategoricalExpenses, getExpenses } from "./utils";
 
 async function App() {
-  const expenses = await prisma.expense.findMany({
-    orderBy: {
-      date: "desc",
-    },
-  });
+  const expenses = await getExpenses();
+  const categoricalExpenses = await getCategoricalExpenses();
+  const budgets = await getBudgets();
 
-  const budgets = await prisma.budget.findMany();
-
-  const totalExpense = expenses.reduce(
+  const totalExpense = categoricalExpenses.reduce(
     (accumulator, expense) => accumulator + expense.amount,
     0
   );

@@ -1,15 +1,11 @@
-import prisma from "@/prisma/client";
 import { Box, Button, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
+import { getExpenses } from "../utils";
 import ExpensesTable from "./ExpensesTable";
 
 async function ExpensesPage() {
-  const expenses = await prisma.expense.findMany({
-    orderBy: {
-      id: "desc",
-    },
-  });
+  const expenses = await getExpenses();
 
   return (
     <Box className="m-10">
