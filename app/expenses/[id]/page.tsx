@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import { Box, Heading } from "@radix-ui/themes";
 import ExpenseFormData from "../ExpenseFormData";
+import { notFound } from "next/navigation";
 
 async function SingleExpensePage({ params }: { params: { id: string } }) {
   const expense = await prisma.expense.findUnique({
@@ -9,7 +10,7 @@ async function SingleExpensePage({ params }: { params: { id: string } }) {
     },
   });
 
-  if (!expense) return null;
+  if (!expense) return notFound();
 
   return (
     <Box className="m-10">

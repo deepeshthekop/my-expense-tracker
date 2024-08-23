@@ -1,4 +1,5 @@
 import { Category } from "@prisma/client";
+import { BookmarkIcon } from "@radix-ui/react-icons";
 import { Avatar, Badge, Text } from "@radix-ui/themes";
 
 export const colorMap: Record<
@@ -33,7 +34,10 @@ export const colorMap: Record<
 
 function ExpenseBadge({ category }: { category: Category }) {
   return (
-    <Badge color={colorMap[category].color}>{colorMap[category].label}</Badge>
+    <Badge color={colorMap[category].color} size="2" className="text-sm">
+      <BookmarkIcon />
+      {colorMap[category].label}
+    </Badge>
   );
 }
 

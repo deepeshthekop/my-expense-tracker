@@ -4,6 +4,7 @@ import prisma from "@/prisma/client";
 import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
 import EditBudgetButton from "./EditBudgetDialog";
+import { notFound } from "next/navigation";
 
 async function SingleBudgetPage({ params }: { params: { id: string } }) {
   const budget = await prisma.budget.findUnique({
@@ -12,7 +13,7 @@ async function SingleBudgetPage({ params }: { params: { id: string } }) {
     },
   });
 
-  if (!budget) return null;
+  if (!budget) return notFound();
 
   const expenses = await prisma.expense.findMany({
     where: {

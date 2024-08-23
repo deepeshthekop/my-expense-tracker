@@ -1,28 +1,68 @@
-import { Box, Grid, Text } from "@radix-ui/themes";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Box, Grid, IconButton, Popover, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
 import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
 import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import { getBudgets, getCategoricalExpenses, getExpenses } from "./utils";
+import { getBudgets, getExpenses } from "./utils";
+import { Expense } from "@prisma/client";
+import prisma from "@/prisma/client";
 
 async function App() {
   const expenses = await getExpenses();
-  const categoricalExpenses = await getCategoricalExpenses();
   const budgets = await getBudgets();
 
-  const totalExpense = categoricalExpenses.reduce(
-    (accumulator, expense) => accumulator + expense.amount,
-    0
-  );
+  let categoricalExpenses: Expense[] = [];
+  for (let i = 0; i < budgets.length; i++) {
+    const expenses = await prisma.expense.findMany({
+      where: {
+        category: budgets[i].type,
+      },
+    });
 
-  const totalBudget = budgets.reduce(
-    (accumulator, budget) => accumulator + budget.capacity,
+    if (expenses) categoricalExpenses = [...categoricalExpenses, ...expenses];
+  }
+
+  const totalExpense = expenses.reduce((a, expense) => a + expense.amount, 0);
+
+  const totalBudget = budgets.reduce((a, budget) => a + budget.capacity, 0);
+
+  const totalCategoricalExpenses = categoricalExpenses.reduce(
+    (a, categoricalExpense) => a + categoricalExpense.amount,
     0
   );
 
   const recentExpenses = expenses.slice(0, 7);
+
+  const spendInfoButton = (
+    <Popover.Root>
+      <Popover.Trigger>
+        <IconButton variant="ghost">
+          <InfoCircledIcon />
+        </IconButton>
+      </Popover.Trigger>
+      <Popover.Content className="text-pretty w-[200px] text-xs">
+        Includes all the expenses you have made - budgeted expenses, categorised
+        expenses and uncategorised expenses. To check the expenses under each
+        budget head over to the budgets page.
+      </Popover.Content>
+    </Popover.Root>
+  );
+
+  const remainingInfoButton = (
+    <Popover.Root>
+      <Popover.Trigger>
+        <IconButton variant="ghost">
+          <InfoCircledIcon />
+        </IconButton>
+      </Popover.Trigger>
+      <Popover.Content className="text-pretty w-[200px] text-xs">
+        Includes only the total remaining budget of the budgeted expenses.
+      </Popover.Content>
+    </Popover.Root>
+  );
 
   return (
     <Box className="m-10">
@@ -40,14 +80,16 @@ async function App() {
             icon={<BsPiggyBank size={32} />}
           />
           <GlanceCard
+            title="Total Remaining"
+            amount={totalBudget - totalCategoricalExpenses}
+            icon={<IoWalletOutline size={32} />}
+            popover={remainingInfoButton}
+          />
+          <GlanceCard
             title="Total Spend"
             amount={totalExpense}
             icon={<IoMdPaper size={32} />}
-          />
-          <GlanceCard
-            title="Total Remaining"
-            amount={totalBudget - totalExpense}
-            icon={<IoWalletOutline size={32} />}
+            popover={spendInfoButton}
           />
         </Grid>
         <Grid columns={{ initial: "1", md: "3" }} gap="5">

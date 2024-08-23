@@ -5,21 +5,39 @@ import ExpenseBadge from "./ExpenseBadge";
 
 function ExpensesTable({ expenses }: { expenses: Expense[] }) {
   return (
-    <Table.Root variant="surface">
+    <Table.Root size="2">
       <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeaderCell className="hidden md:table-cell">
-            Title
+        <Table.Row className="text-[var(--gray-11)]">
+          <Table.ColumnHeaderCell className="font-medium">
+            Date
           </Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Amount</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Category</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="font-medium hidden md:table-cell">
+            Description
+          </Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="font-medium">
+            Category
+          </Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="font-medium">
+            Amount
+          </Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {expenses.map((expense) => (
           <Table.Row key={expense.id}>
-            <Table.Cell className="hidden md:table-cell">
+            <Table.Cell py="5">
+              {/* <span className="md:hidden">
+                {expense.date.toLocaleDateString("en-GB",)}
+              </span>
+              <span className="hidden md:block">
+                {expense.date.toDateString()}
+              </span> */}
+              {expense.date.toLocaleDateString("en-GB", {
+                month: "short",
+                day: "numeric",
+              })}
+            </Table.Cell>
+            <Table.Cell py="5" className="hidden md:table-cell">
               <Link
                 className="md:border-b border-dashed border-[var(--gray-12)]"
                 href={`/expenses/${expense.id}`}
@@ -27,24 +45,16 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
                 {expense.title}
               </Link>
             </Table.Cell>
-            <Table.Cell className="text-nowrap">
+            <Table.Cell py="5">
+              {expense.category && <ExpenseBadge category={expense.category} />}
+            </Table.Cell>
+            <Table.Cell py="5" className="text-nowrap">
               <Link
                 href={`/expenses/${expense.id}`}
                 className="border-b border-dashed border-[var(--gray-12)] md:border-none"
               >
                 ${expense.amount}
               </Link>
-            </Table.Cell>
-            <Table.Cell>
-              <span className="md:hidden">
-                {expense.date.toLocaleDateString("en-GB")}
-              </span>
-              <span className="hidden md:block">
-                {expense.date.toDateString()}
-              </span>
-            </Table.Cell>
-            <Table.Cell>
-              {expense.category && <ExpenseBadge category={expense.category} />}
             </Table.Cell>
           </Table.Row>
         ))}
