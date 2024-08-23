@@ -1,3 +1,5 @@
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -9,9 +11,22 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import Logo from "../components/Logo";
+import { RegistrationSchema } from "../api/users/route";
+
+type RegistrationFormData = z.infer<typeof RegistrationSchema>;
 
 function UserRegistrationPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegistrationFormData>({
+    resolver: zodResolver(RegistrationSchema),
+  });
+
   return (
     <Box className="h-screen">
       <Flex>
@@ -39,20 +54,49 @@ function UserRegistrationPage() {
               <Text as="div" className="mt-3 text-center text-[var(--gray-11)]">
                 Enter your details below to create your account
               </Text>
-              <form className="mt-10 space-y-3">
-                <TextField.Root placeholder="Your Name"></TextField.Root>
-                <TextField.Root placeholder="Email"></TextField.Root>
-                <TextField.Root
-                  placeholder="Password"
-                  type="password"
-                ></TextField.Root>
-                <Button type="submit" className="w-full">
-                  Sign Up
-                </Button>
+              <form
+                className="mt-10 space-y-3"
+                onSubmit={handleSubmit((data) => console.log(data))}
+              >
+                <Box>
+                  {errors.name && (
+                    <Text color="red" className="text-sm">
+                      {errors.name.message}
+                    </Text>
+                  )}
+                  <TextField.Root
+                    {...register("name")}
+                    placeholder="Name"
+                  ></TextField.Root>
+                </Box>
+                <Box>
+                  {errors.email && (
+                    <Text color="red" className="text-sm">
+                      {errors.email.message}
+                    </Text>
+                  )}
+                  <TextField.Root
+                    {...register("email")}
+                    placeholder="Email"
+                  ></TextField.Root>
+                </Box>
+                <Box>
+                  {errors.password && (
+                    <Text color="red" className="text-sm">
+                      {errors.password.message}
+                    </Text>
+                  )}
+                  <TextField.Root
+                    {...register("password")}
+                    placeholder="Password"
+                    type="password"
+                  ></TextField.Root>
+                </Box>
+                <Button className="w-full">Sign Up</Button>
               </form>
               <Text
                 as="div"
-                className="mt-10 text-sm text-center text-[var(--gray-11)]"
+                className="mt-10 text-xs text-center text-[var(--gray-11)]"
               >
                 By clicking continue, you agree to our{" "}
                 <Text className="underline underline-offset-4">
