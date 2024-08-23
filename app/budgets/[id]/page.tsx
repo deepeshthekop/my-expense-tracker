@@ -1,8 +1,10 @@
 import { colorMap } from "@/app/expenses/ExpenseBadge";
 import ExpensesTable from "@/app/expenses/ExpensesTable";
 import prisma from "@/prisma/client";
-import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
+import { Box, Button, Flex, Heading, Progress, Text } from "@radix-ui/themes";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import EditBudgetButton from "./EditBudgetDialog";
 
 async function SingleBudgetPage({ params }: { params: { id: string } }) {
   const budget = await prisma.budget.findUnique({
@@ -16,6 +18,9 @@ async function SingleBudgetPage({ params }: { params: { id: string } }) {
   const expenses = await prisma.expense.findMany({
     where: {
       category: budget.type,
+    },
+    orderBy: {
+      date: "desc",
     },
   });
 
@@ -32,7 +37,10 @@ async function SingleBudgetPage({ params }: { params: { id: string } }) {
         <Heading className="text-xl md:text-3xl lg:text-5xl">
           {colorMap[budget.type].emoji} {colorMap[budget.type].label} Budget
         </Heading>
-        <DeleteBudgetButton budget={budget} />
+        <Flex gap="3">
+          <EditBudgetButton budget={budget} />
+          <DeleteBudgetButton budget={budget} />
+        </Flex>
       </Flex>
       <Box className="mt-10">
         <Flex

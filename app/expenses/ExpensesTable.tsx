@@ -29,7 +29,7 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
             </Table.Cell>
             <Table.Cell className="text-nowrap">
               <Link
-                href={`expenses/${expense.id}`}
+                href={`/expenses/${expense.id}`}
                 className="border-b border-dashed border-[var(--gray-12)] md:border-none"
               >
                 ${expense.amount}

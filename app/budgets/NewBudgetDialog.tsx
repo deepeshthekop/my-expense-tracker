@@ -38,7 +38,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const addBudget = async () => {
+  const addBudget = () => {
     const data = {
       type: selectedBudget,
       capacity: parseInt(amount),
@@ -50,7 +50,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
     else {
       setError(null);
       setIsLoading(true);
-      await axios
+      axios
         .post("/api/budgets/", data)
         .then(() => {
           router.refresh();
@@ -65,22 +65,20 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
 
   return (
     <Dialog.Root open={open}>
-      <Dialog.Trigger>
-        <IconButton
-          variant="soft"
-          className="border-2 border-dashed w-full h-[150px] cursor-pointer transition-colors"
-          onClick={() => {
-            setIsOpen(true);
-            setAmount("");
-            setSelectedBudget(availableBudgets[0]);
-          }}
-        >
-          <Flex direction="column" align="center" gap="2">
-            <FaPlus size={32} />
-            <Text>Add New Budget</Text>
-          </Flex>
-        </IconButton>
-      </Dialog.Trigger>
+      <IconButton
+        variant="soft"
+        className="border-2 border-dashed w-full h-[150px] cursor-pointer transition-colors"
+        onClick={() => {
+          setIsOpen(true);
+          setAmount("");
+          setSelectedBudget(availableBudgets[0]);
+        }}
+      >
+        <Flex direction="column" align="center" gap="2">
+          <FaPlus size={32} />
+          <Text>Add New Budget</Text>
+        </Flex>
+      </IconButton>
       <Dialog.Content
         className="min-w-fit w-[300px]"
         onInteractOutside={() => setIsOpen(false)}
