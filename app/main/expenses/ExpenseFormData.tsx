@@ -1,6 +1,6 @@
 "use client";
 
-import { ExpenseSchema } from "@/app/api/expenses/route";
+import { ExpenseSchema } from "@/app/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Expense } from "@prisma/client";
 import {

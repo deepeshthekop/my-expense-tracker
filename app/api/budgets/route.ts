@@ -1,12 +1,7 @@
+import { BudgetSchema } from "@/app/validations";
 import prisma from "@/prisma/client";
-import { Category } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
-
-export const BudgetSchema = z.object({
-  capacity: z.coerce.number().min(0.1, "Amount is required"),
-  type: z.nativeEnum(Category),
-});
 
 export async function POST(request: NextRequest) {
   const body: z.infer<typeof BudgetSchema> = await request.json();

@@ -1,16 +1,7 @@
+import { ExpenseSchema } from "@/app/validations";
 import prisma from "@/prisma/client";
-import { Category } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
-
-export const ExpenseSchema = z.object({
-  amount: z.coerce.number().min(0.1, "Amount is required"),
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(128, "Title cannot be more than 128 characters."),
-  category: z.nativeEnum(Category).optional(),
-});
 
 export async function POST(request: NextRequest) {
   const body: z.infer<typeof ExpenseSchema> = await request.json();

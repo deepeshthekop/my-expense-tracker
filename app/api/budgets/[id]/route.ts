@@ -1,7 +1,6 @@
+import { BudgetPatchSchema } from "@/app/validations";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { BudgetSchema } from "../route";
 
 export async function DELETE(
   request: NextRequest,
@@ -24,10 +23,6 @@ export async function DELETE(
   return NextResponse.json(deletedBudget);
 }
 
-export const BudgetPatchSchema = z.object({
-  capacity: z.coerce.number().min(0.1, "Amount is required"),
-});
-
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -39,7 +34,7 @@ export async function PATCH(
   });
   if (!budget) return NextResponse.json({}, { status: 404 });
 
-  const body: z.infer<typeof BudgetPatchSchema> = await request.json();
+  const body = await request.json();
 
   const validate = BudgetPatchSchema.safeParse(body);
   if (!validate.success)

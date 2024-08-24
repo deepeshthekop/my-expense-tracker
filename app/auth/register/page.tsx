@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { RegistrationSchema } from "../../api/users/route";
+import { RegistrationSchema } from "@/app/validations";
 import { useRouter } from "next/navigation";
 
 type RegistrationFormData = z.infer<typeof RegistrationSchema>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { BudgetPatchSchema } from "@/app/api/budgets/[id]/route";
+import { BudgetPatchSchema } from "@/app/validations";
 import { Budget } from "@prisma/client";
 import { ExclamationTriangleIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import {
@@ -15,6 +15,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
+import { z } from "zod";
 
 function EditBudgetButton({ budget }: { budget: Budget }) {
   const router = useRouter();
