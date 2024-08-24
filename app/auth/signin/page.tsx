@@ -14,10 +14,11 @@ import {
 } from "@radix-ui/themes";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
 
 type SignInFormData = z.infer<typeof SignInSchema>;
 
@@ -25,6 +26,9 @@ function UserSignInPage() {
   const [error, setError] = useState<string | null>();
   const [loading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const {
     register,
@@ -47,18 +51,23 @@ function UserSignInPage() {
           </Text>
           <form
             className="mt-10 space-y-3"
-            onSubmit={handleSubmit((data) => {
+            onSubmit={handleSubmit(async (data) => {
               setIsLoading(true);
               setError(null);
-              axios
-                .post("/api/users", data)
-                .then(() => router.push("/auth/login"))
-                .catch((error: AxiosError) => {
-                  if (error.response?.status === 404)
-                    setError("User does not exist");
-                  else setError(error.message);
-                })
-                .finally(() => setIsLoading(false));
+
+              const authorization = await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                redirect: false,
+              });
+
+              if (!authorization) {
+                setError("An unexpected error occured.");
+                setIsLoading(false);
+              } else if (!authorization.ok) {
+                setError("Email or Password is incorrect");
+                setIsLoading(false);
+              } else router.push(callbackUrl);
             })}
           >
             {error && (

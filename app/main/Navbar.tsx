@@ -12,6 +12,7 @@ import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import Logo from "@/app/(components)/Logo";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome size={22} />, link: "/main" },
@@ -25,6 +26,9 @@ const navItems = [
 
 function Navbar() {
   const currentPath = usePathname();
+  const session = useSession();
+
+  if (session.status === "unauthenticated") signIn();
 
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -74,12 +78,25 @@ function Navbar() {
           </Container>
         </Drawer>
 
-        <Button
-          variant="soft"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </Button>
+        <Flex gapX="2">
+          <Button
+            variant="outline"
+            onClick={() =>
+              signOut({
+                redirect: true,
+                callbackUrl: "/auth/signin",
+              })
+            }
+          >
+            {session.data?.user?.name}
+          </Button>
+          <Button
+            variant="soft"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </Button>
+        </Flex>
       </Flex>
     </Box>
   );

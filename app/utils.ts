@@ -19,3 +19,11 @@ export async function getExpenses() {
 export async function getBudgets() {
   return await prisma.budget.findMany();
 }
+
+export async function getUser(email: string) {
+  return await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+}

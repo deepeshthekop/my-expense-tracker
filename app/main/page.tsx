@@ -6,13 +6,18 @@ import { IoWalletOutline } from "react-icons/io5";
 import ExpensesChart from "../ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import { getBudgets, getExpenses } from "@/app/utils";
+import { getBudgets, getExpenses, getUser } from "@/app/utils";
 import { Expense } from "@prisma/client";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth";
 
 async function App() {
+  const session = await getServerSession(authOptions);
+
   const expenses = await getExpenses();
   const budgets = await getBudgets();
+  const user = await getUser(session!.user!.email!);
 
   let categoricalExpenses: Expense[] = [];
   for (let i = 0; i < budgets.length; i++) {
@@ -67,7 +72,7 @@ async function App() {
   return (
     <Box className="m-10">
       <Text className="text-5xl" weight="bold">
-        Hi, User 👋
+        Hi, {user!.name.split(" ")[0]} 👋
       </Text>
       <Text size="4" as="p" color="gray" className="mt-3">
         Here are your expenses at a glance.

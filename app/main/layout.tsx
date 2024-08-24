@@ -2,6 +2,7 @@ import { Grid, Box } from "@radix-ui/themes";
 import React from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import Provider from "./Provider";
 
 export default function MainLayout({
   children,
@@ -21,7 +22,9 @@ export default function MainLayout({
     >
       <Sidebar />
       <Box gridArea="main">
-        <Navbar />
+        <Provider>
+          <Navbar />
+        </Provider>
         {children}
       </Box>
     </Grid>
