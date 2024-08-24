@@ -1,7 +1,9 @@
 "use client";
 
+import Logo from "@/app/(components)/Logo";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Box, Button, Container, Flex, Text } from "@radix-ui/themes";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,8 +13,6 @@ import { IoMdMenu } from "react-icons/io";
 import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import Logo from "@/app/(components)/Logo";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome size={22} />, link: "/main" },
@@ -27,8 +27,6 @@ const navItems = [
 function Navbar() {
   const currentPath = usePathname();
   const session = useSession();
-
-  if (session.status === "unauthenticated") signIn();
 
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();

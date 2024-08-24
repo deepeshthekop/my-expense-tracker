@@ -12,13 +12,12 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
-import axios, { AxiosError } from "axios";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
 
 type SignInFormData = z.infer<typeof SignInSchema>;
 

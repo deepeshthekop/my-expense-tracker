@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import Logo from "../(components)/Logo";
+import { Suspense } from "react";
 
 function AuthLayout({
   children,
@@ -23,7 +24,9 @@ function AuthLayout({
             <Text as="div">— Alex Carrington</Text>
           </Box>
         </Flex>
-        <Box className="w-full md:w-1/2 p-10 h-screen">{children}</Box>
+        <Box className="w-full md:w-1/2 p-10 h-screen">
+          <Suspense>{children}</Suspense>
+        </Box>
       </Flex>
     </Box>
   );
