@@ -6,7 +6,7 @@ import { IoWalletOutline } from "react-icons/io5";
 import ExpensesChart from "../ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import { getBudgets, getExpenses } from "@/app/main/utils";
+import { getBudgets, getExpenses } from "@/app/utils";
 import { Expense } from "@prisma/client";
 import prisma from "@/prisma/client";
 

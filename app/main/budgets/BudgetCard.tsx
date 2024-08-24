@@ -1,7 +1,7 @@
 import { Budget, Expense } from "@prisma/client";
 import { Box, Card, Flex, Progress, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import { ExpenseIcon } from "../../components/ExpenseBadge";
+import { ExpenseIcon } from "@/app/(components)/ExpenseBadge";
 
 interface Props {
   categoricalExpense: {

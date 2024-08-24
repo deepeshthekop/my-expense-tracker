@@ -1,8 +1,8 @@
 import { Box, Button, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
-import { getExpenses } from "@/app/main/utils";
-import ExpensesTable from "../../components/ExpensesTable";
+import { getExpenses } from "@/app/utils";
+import ExpensesTable from "@/app/(components)/ExpensesTable";
 
 async function ExpensesPage() {
   const expenses = await getExpenses();

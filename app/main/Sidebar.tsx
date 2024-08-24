@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiHome, FiPieChart } from "react-icons/fi";
 import { TbCashRegister } from "react-icons/tb";
-import Logo from "@/app/components/Logo";
+import Logo from "@/app/(components)/Logo";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome />, link: "/main" },

@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import Logo from "../components/Logo";
+import Logo from "../(components)/Logo";
 
 function AuthLayout({
   children,

@@ -1,5 +1,5 @@
-import { colorMap } from "@/app/components/ExpenseBadge";
-import ExpensesTable from "@/app/components/ExpensesTable";
+import { colorMap } from "@/app/(components)/ExpenseBadge";
+import ExpensesTable from "@/app/(components)/ExpensesTable";
 import prisma from "@/prisma/client";
 import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
