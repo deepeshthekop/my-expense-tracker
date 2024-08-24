@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
       name: body.name,
       email: body.email,
       password: hashedPassword,
+      image: `https://api.dicebear.com/9.x/dylan/svg?seed=${body.name}`,
     },
   });
 

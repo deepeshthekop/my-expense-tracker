@@ -2,7 +2,15 @@
 
 import Logo from "@/app/(components)/Logo";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Box, Button, Container, Flex, Text } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -13,6 +21,8 @@ import { IoMdMenu } from "react-icons/io";
 import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
+import Image from "next/image";
+import { getUser } from "../utils";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome size={22} />, link: "/main" },
@@ -26,7 +36,7 @@ const navItems = [
 
 function Navbar() {
   const currentPath = usePathname();
-  const session = useSession();
+  const { data: session } = useSession();
 
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -76,24 +86,49 @@ function Navbar() {
           </Container>
         </Drawer>
 
-        <Flex gapX="2">
-          <Button
-            variant="outline"
-            onClick={() =>
-              signOut({
-                redirect: true,
-                callbackUrl: "/auth/signin",
-              })
-            }
-          >
-            {session.data?.user?.name}
-          </Button>
+        <Flex gapX="3" align="center">
           <Button
             variant="soft"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            size="3"
           >
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </Button>
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+              <Avatar
+                src={session?.user?.image || ""}
+                fallback="?"
+                radius="full"
+                className="cursor-pointer"
+              />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content
+              variant="soft"
+              className="min-w-fit w-[220px]"
+            >
+              <Flex direction="column" className="px-2 py-1">
+                <Text className="text-sm" weight="bold">
+                  {session?.user?.name}
+                </Text>
+                <Text className="text-xs text-[var(--gray-11)]">
+                  {session?.user?.email}
+                </Text>
+              </Flex>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item
+                onClick={() =>
+                  signOut({
+                    redirect: true,
+                    callbackUrl: "/auth/signin",
+                  })
+                }
+              >
+                Sign Out
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         </Flex>
       </Flex>
     </Box>
