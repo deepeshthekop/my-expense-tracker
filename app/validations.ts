@@ -24,3 +24,8 @@ export const RegistrationSchema = z.object({
   email: z.string().min(1, "Please enter your email."),
   password: z.string().min(1, "Please enter your password."),
 });
+
+export const SignInSchema = z.object({
+  email: z.string().min(1, "Please enter your email."),
+  password: z.string().min(1, "Please enter your password."),
+});

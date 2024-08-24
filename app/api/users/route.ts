@@ -1,6 +1,7 @@
 import { RegistrationSchema } from "@/app/validations";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { hash } from "bcrypt";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -18,11 +19,13 @@ export async function POST(request: NextRequest) {
   if (exists)
     return NextResponse.json({ error: "User already exists" }, { status: 409 });
 
+  const hashedPassword = await hash(body.password, 10);
+
   const newUser = await prisma.user.create({
     data: {
       name: body.name,
       email: body.email,
-      password: body.password,
+      password: hashedPassword,
     },
   });
 

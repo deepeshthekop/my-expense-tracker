@@ -23,20 +23,30 @@ type RegistrationFormData = z.infer<typeof RegistrationSchema>;
 
 function UserRegistrationPage() {
   const [error, setError] = useState<string | null>();
+  const [confirmPasswordError, setConfirmPasswordError] = useState<
+    string | null
+  >();
   const [loading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const {
     register,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(RegistrationSchema),
   });
 
+  const confirmPassword = (password: string) => {
+    if (password !== getValues("password"))
+      setConfirmPasswordError("Passwords do not match.");
+    else setConfirmPasswordError(null);
+  };
+
   return (
     <>
-      <Link href="/login" className="flex justify-end text-end">
+      <Link href="/auth/signin" className="flex justify-end text-end">
         Login
       </Link>
       <Grid className="h-full place-items-center">
@@ -48,17 +58,19 @@ function UserRegistrationPage() {
           <form
             className="mt-10 space-y-3"
             onSubmit={handleSubmit((data) => {
-              setIsLoading(true);
-              setError(null);
-              axios
-                .post("/api/users", data)
-                .then(() => router.push("/auth/login"))
-                .catch((error: AxiosError) => {
-                  if (error.response?.status === 409)
-                    setError("User already exist");
-                  else setError(error.message);
-                })
-                .finally(() => setIsLoading(false));
+              if (!confirmPasswordError) {
+                setIsLoading(true);
+                setError(null);
+                axios
+                  .post("/api/users", data)
+                  .then(() => router.push("/auth/signin"))
+                  .catch((error: AxiosError) => {
+                    if (error.response?.status === 409)
+                      setError("User already exist");
+                    else setError(error.message);
+                  })
+                  .finally(() => setIsLoading(false));
+              }
             })}
           >
             {error && (
@@ -101,6 +113,19 @@ function UserRegistrationPage() {
                 placeholder="Password"
                 type="password"
                 disabled={loading}
+              ></TextField.Root>
+            </Box>
+            <Box>
+              {confirmPasswordError && (
+                <Text color="red" className="text-sm">
+                  {confirmPasswordError}
+                </Text>
+              )}
+              <TextField.Root
+                placeholder="Confirm password"
+                type="password"
+                disabled={loading}
+                onChange={(e) => confirmPassword(e.target.value)}
               ></TextField.Root>
             </Box>
             <Button className="w-full" loading={loading}>
