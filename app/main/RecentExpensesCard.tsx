@@ -8,34 +8,40 @@ function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
       <Text as="p" className="text-2xl" weight="bold">
         Recent Expenses
       </Text>
-      <ScrollArea
-        className="min-h-fit max-h-60"
-        scrollbars="vertical"
-        type="auto"
-      >
-        <Box className="mr-4 space-y-3">
-          {expenses.map((expense) => (
-            <Card key={expense.id}>
-              <Flex justify="between" align="end">
-                <Box>
-                  <Text as="div">{expense.title}</Text>
-                  <Text size="2">
-                    {expense.date.toLocaleDateString("en-GB")}
-                  </Text>
-                </Box>
-                <Flex justify="between" direction="column" gapY="2">
-                  <Text align="right" weight="bold">
-                    $ {expense.amount}
-                  </Text>
-                  {expense.category && (
-                    <ExpenseBadge category={expense.category} />
-                  )}
+      {expenses.length === 0 ? (
+        <Flex justify="center" align="center" className="h-[230px]">
+          <Text className="text-base md:text-lg text">No recent expenses.</Text>
+        </Flex>
+      ) : (
+        <ScrollArea
+          className="min-h-fit max-h-60"
+          scrollbars="vertical"
+          type="auto"
+        >
+          <Box className="mr-4 space-y-3">
+            {expenses.map((expense) => (
+              <Card key={expense.id}>
+                <Flex justify="between" align="end">
+                  <Box>
+                    <Text as="div">{expense.title}</Text>
+                    <Text size="2">
+                      {expense.date.toLocaleDateString("en-GB")}
+                    </Text>
+                  </Box>
+                  <Flex justify="between" direction="column" gapY="2">
+                    <Text align="right" weight="bold">
+                      $ {expense.amount}
+                    </Text>
+                    {expense.category && (
+                      <ExpenseBadge category={expense.category} />
+                    )}
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Card>
-          ))}
-        </Box>
-      </ScrollArea>
+              </Card>
+            ))}
+          </Box>
+        </ScrollArea>
+      )}
     </Card>
   );
 }

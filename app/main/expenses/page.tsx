@@ -3,9 +3,12 @@ import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { getExpenses } from "@/app/utils";
 import ExpensesTable from "@/app/(components)/ExpensesTable";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth";
 
 async function ExpensesPage() {
-  const expenses = await getExpenses();
+  const session = await getServerSession(authOptions);
+  const expenses = await getExpenses(session?.user.id!);
 
   return (
     <Box className="m-10">
@@ -17,7 +20,7 @@ async function ExpensesPage() {
           <MdOutlineAddToPhotos />
           <Link href="/main/expenses/new">Add Expense</Link>
         </Button>
-        <ExpensesTable expenses={expenses} />
+        <ExpensesTable expenses={expenses!} />
       </Box>
     </Box>
   );

@@ -12,7 +12,10 @@ export async function POST(request: NextRequest) {
 
   const existingBudget = await prisma.budget.findUnique({
     where: {
-      type: body.type,
+      userId_type: {
+        userId: body.userId,
+        type: body.type,
+      },
     },
   });
 
@@ -20,8 +23,9 @@ export async function POST(request: NextRequest) {
 
   const newBudget = await prisma.budget.create({
     data: {
-      capacity: body.capacity,
+      userId: body.userId,
       type: body.type,
+      capacity: body.capacity,
     },
   });
 

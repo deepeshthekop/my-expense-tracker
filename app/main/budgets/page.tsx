@@ -3,33 +3,38 @@ import { Budget, Category, Expense } from "@prisma/client";
 import { Box, Grid, Heading } from "@radix-ui/themes";
 import BudgetCard from "./BudgetCard";
 import NewBudgetDialog from "./NewBudgetDialog";
+import { authOptions } from "@/app/auth";
+import { getServerSession } from "next-auth";
+import { getBudgets } from "@/app/utils";
 
 async function budgetsPage() {
-  let budgets: Budget[] = [];
+  const session = await getServerSession(authOptions);
 
-  for (let type in Category) {
-    const budget = await prisma.budget.findUnique({
-      where: {
-        type: type as Category,
-      },
-    });
-
-    if (budget) budgets = [...budgets, budget];
-  }
+  const budgets = await getBudgets(session?.user.id!);
 
   let categoricalExpenses: { category: Budget; expenses: Expense[] }[] = [];
 
-  for (let i = 0; i < budgets.length; i++) {
+  budgets?.map(async (budget) => {
     const expenses = await prisma.expense.findMany({
       where: {
-        category: budgets[i].type,
+        userId: session?.user.id!,
+        category: budget.type,
+      },
+    });
+  });
+
+  for (let i = 0; i < budgets!.length; i++) {
+    const expenses = await prisma.expense.findMany({
+      where: {
+        userId: session?.user.id!,
+        category: budgets![i].type,
       },
     });
 
     categoricalExpenses = [
       ...categoricalExpenses,
       {
-        category: budgets[i],
+        category: budgets![i],
         expenses: expenses,
       },
     ];
@@ -45,7 +50,7 @@ async function budgetsPage() {
         gap="5"
         className="mt-5"
       >
-        <NewBudgetDialog budgetsInUse={budgets} />
+        <NewBudgetDialog budgetsInUse={budgets!} />
         {categoricalExpenses.map((categoricalExpense) => (
           <BudgetCard
             key={categoricalExpense.category.type}

@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
 
   const newExpense = await prisma.expense.create({
     data: {
+      userId: body.userId,
       title: body.title,
       amount: body.amount,
       category: body.category,

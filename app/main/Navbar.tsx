@@ -21,8 +21,6 @@ import { IoMdMenu } from "react-icons/io";
 import { TbCashRegister } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import Image from "next/image";
-import { getUser } from "../utils";
 
 const navItems = [
   { label: "Dashboard", icon: <FiHome size={22} />, link: "/main" },

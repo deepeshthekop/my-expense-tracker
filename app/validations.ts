@@ -2,6 +2,7 @@ import { Category } from "@prisma/client";
 import { z } from "zod";
 
 export const ExpenseSchema = z.object({
+  userId: z.string().min(1, "user id is required"),
   amount: z.coerce.number().min(0.1, "Amount is required"),
   title: z
     .string()
@@ -11,11 +12,13 @@ export const ExpenseSchema = z.object({
 });
 
 export const BudgetSchema = z.object({
+  userId: z.string().min(1, "user id is required"),
   capacity: z.coerce.number().min(0.1, "Amount is required"),
   type: z.nativeEnum(Category),
 });
 
 export const BudgetPatchSchema = z.object({
+  userId: z.string().min(1, "user id is required"),
   capacity: z.coerce.number().min(0.1, "Amount is required"),
 });
 

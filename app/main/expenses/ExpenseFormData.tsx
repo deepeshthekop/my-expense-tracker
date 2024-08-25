@@ -19,16 +19,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import DeleteExpenseButton from "./DeleteExpense";
 import ExpenseBadge from "@/app/(components)/ExpenseBadge";
+import { useSession } from "next-auth/react";
 
 type ExpenseFormData = z.infer<typeof ExpenseSchema>;
 
-function ExpenseFormData({ expense }: { expense?: Expense }) {
+function ExpenseForm({ expense }: { expense?: Expense }) {
   const [isEditing, setIsEditing] = useState(expense ? false : true);
   const [isLoading, setIsLoading] = useState(false);
   const [titleText, setTitleText] = useState(expense ? expense.title : "");
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     expense ? expense.category : null
   );
+
+  const { data: session } = useSession();
 
   const {
     register,
@@ -81,6 +84,7 @@ function ExpenseFormData({ expense }: { expense?: Expense }) {
             setIsLoading(true);
 
             const newExpense: ExpenseFormData = {
+              userId: session!.user.id!,
               title: data.title,
               amount: data.amount,
             };
@@ -156,4 +160,4 @@ function ExpenseFormData({ expense }: { expense?: Expense }) {
   );
 }
 
-export default ExpenseFormData;
+export default ExpenseForm;

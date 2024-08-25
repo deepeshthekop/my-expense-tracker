@@ -3,7 +3,7 @@ import { Box, Grid, IconButton, Popover, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
 import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
-import ExpensesChart from "../ExpensesChart";
+import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
 import { getBudgets, getExpenses, getUser } from "@/app/utils";
@@ -15,31 +15,32 @@ import { authOptions } from "../auth";
 async function App() {
   const session = await getServerSession(authOptions);
 
-  const expenses = await getExpenses();
-  const budgets = await getBudgets();
-  const user = await getUser(session!.user!.email!);
+  const user = await getUser(session?.user.id!);
+  const expenses = await getExpenses(user?.id!);
+  const budgets = await getBudgets(user?.id!);
 
   let categoricalExpenses: Expense[] = [];
-  for (let i = 0; i < budgets.length; i++) {
+  for (let i = 0; i < budgets!.length; i++) {
     const expenses = await prisma.expense.findMany({
       where: {
-        category: budgets[i].type,
+        userId: user?.id,
+        category: budgets![i].type,
       },
     });
 
     if (expenses) categoricalExpenses = [...categoricalExpenses, ...expenses];
   }
 
-  const totalExpense = expenses.reduce((a, expense) => a + expense.amount, 0);
+  const totalExpense = expenses!.reduce((a, expense) => a + expense.amount, 0);
 
-  const totalBudget = budgets.reduce((a, budget) => a + budget.capacity, 0);
+  const totalBudget = budgets!.reduce((a, budget) => a + budget.capacity, 0);
 
   const totalCategoricalExpenses = categoricalExpenses.reduce(
     (a, categoricalExpense) => a + categoricalExpense.amount,
     0
   );
 
-  const recentExpenses = expenses.slice(0, 7);
+  const recentExpenses = expenses!.slice(0, 7);
 
   const spendInfoButton = (
     <Popover.Root>

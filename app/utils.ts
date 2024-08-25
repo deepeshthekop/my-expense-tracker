@@ -1,29 +1,44 @@
 import prisma from "@/prisma/client";
 
-export async function getCategoricalExpenses() {
+export async function getCategoricalExpenses(userId: string) {
   return await prisma.expense.findMany({
     where: {
+      userId: userId,
       category: { not: null },
     },
   });
 }
 
-export async function getExpenses() {
-  return await prisma.expense.findMany({
-    orderBy: {
-      date: "desc",
+export async function getExpenses(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      expenses: true,
     },
   });
+
+  return user?.expenses;
 }
 
-export async function getBudgets() {
-  return await prisma.budget.findMany();
+export async function getBudgets(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      budgets: true,
+    },
+  });
+
+  return user?.budgets;
 }
 
-export async function getUser(email: string) {
+export async function getUser(userId: string) {
   return await prisma.user.findUnique({
     where: {
-      email: email,
+      id: userId,
     },
   });
 }

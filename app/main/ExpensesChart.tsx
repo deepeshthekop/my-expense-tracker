@@ -54,29 +54,37 @@ function ExpensesChart({ data }: { data: Expense[] }) {
         height="100%"
         className="pt-5 pb-10 text-xs [&_.recharts-cartesian-axis-tick_text]:fill-[var(--gray-11)] [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-[var(--gray-6)] [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-[var(--color-panel-translucent)]"
       >
-        <BarChart data={data}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(date: any) =>
-              date.toLocaleDateString("en-GB", {
-                month: "short",
-                day: "2-digit",
-              })
-            }
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar
-            dataKey="amount"
-            fill="var(--accent-11)"
-            className="rounded-lg"
-            barSize={60}
-            radius={10}
-          />
-        </BarChart>
+        {data.length === 0 ? (
+          <Flex justify="center" align="center" className="h-[200px]">
+            <Text className="text-base md:text-lg text">
+              No recent expenses.
+            </Text>
+          </Flex>
+        ) : (
+          <BarChart data={data}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(date: any) =>
+                date.toLocaleDateString("en-GB", {
+                  month: "short",
+                  day: "2-digit",
+                })
+              }
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar
+              dataKey="amount"
+              fill="var(--accent-11)"
+              className="rounded-lg"
+              barSize={60}
+              radius={10}
+            />
+          </BarChart>
+        )}
       </ResponsiveContainer>
     </Card>
   );

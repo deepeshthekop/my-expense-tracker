@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   const expense = await prisma.expense.findUnique({
     where: {
-      id: parseInt(params.id),
+      id: params.id,
     },
   });
 
@@ -15,7 +15,7 @@ export async function DELETE(
 
   const deletedExpense = await prisma.expense.delete({
     where: {
-      id: parseInt(params.id),
+      id: params.id,
     },
   });
 
