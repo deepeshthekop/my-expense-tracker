@@ -8,7 +8,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-function DeleteBudgetButton({ budget }: { budget: Budget }) {
+function DeleteBudgetButton({
+  userId,
+  budget,
+}: {
+  userId: string;
+  budget: Budget;
+}) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,9 +22,13 @@ function DeleteBudgetButton({ budget }: { budget: Budget }) {
     setIsLoading(true);
 
     await axios
-      .delete(`/api/budgets/${budget.id}`)
+      .delete(`/api/budgets/${budget.type}`, {
+        data: {
+          userId: userId,
+        },
+      })
       .then(() => {
-        router.push("/budgets");
+        router.push("/main/budgets");
       })
       .catch(() => toast.error("An unexpected error occured."))
       .finally(() => setIsLoading(false));

@@ -18,7 +18,7 @@ function DeleteExpenseButton({ expense }: { expense: Expense }) {
     await axios
       .delete(`/api/expenses/${expense.id}`)
       .then(() => {
-        router.push("/expenses");
+        router.push("/main/expenses");
       })
       .catch(() => toast.error("An unexpected error occured."))
       .finally(() => setIsLoading(false));

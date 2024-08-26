@@ -1,6 +1,7 @@
 import { Box, Heading } from "@radix-ui/themes";
 import React from "react";
 import ExpenseFormData from "../ExpenseFormData";
+import Provider from "../../Provider";
 
 function NewExpensePage() {
   return (
@@ -8,7 +9,9 @@ function NewExpensePage() {
       <Heading size="8" className="mt-10">
         New Expense
       </Heading>
-      <ExpenseFormData />
+      <Provider>
+        <ExpenseFormData />
+      </Provider>
     </Box>
   );
 }

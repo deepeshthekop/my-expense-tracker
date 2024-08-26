@@ -1,3 +1,5 @@
+import prisma from "@/prisma/client";
+import { Expense } from "@prisma/client";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Box, Grid, IconButton, Popover, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
@@ -6,18 +8,14 @@ import { IoWalletOutline } from "react-icons/io5";
 import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import { getBudgets, getExpenses, getUser } from "@/app/utils";
-import { Expense } from "@prisma/client";
-import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth";
+import { getExpenses, getBudgets, getUser } from "./utils";
 
-async function App() {
-  const session = await getServerSession(authOptions);
-
-  const user = await getUser(session?.user.id!);
-  const expenses = await getExpenses(user?.id!);
-  const budgets = await getBudgets(user?.id!);
+async function Main() {
+  const [user, expenses, budgets] = await Promise.all([
+    getUser(),
+    getExpenses(),
+    getBudgets(),
+  ]);
 
   let categoricalExpenses: Expense[] = [];
   for (let i = 0; i < budgets!.length; i++) {
@@ -113,4 +111,4 @@ async function App() {
 
 export const dynamic = "force-dynamic";
 
-export default App;
+export default Main;

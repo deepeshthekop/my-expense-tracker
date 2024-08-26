@@ -16,7 +16,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 
-function EditBudgetButton({ budget }: { budget: Budget }) {
+function EditBudgetButton({
+  userId,
+  budget,
+}: {
+  userId: string;
+  budget: Budget;
+}) {
   const router = useRouter();
   const [amount, setAmount] = useState("");
   const [open, setIsOpen] = useState(false);
@@ -25,6 +31,7 @@ function EditBudgetButton({ budget }: { budget: Budget }) {
 
   const updateBudget = async () => {
     const data = {
+      userId: userId,
       capacity: parseInt(amount),
     };
 
@@ -34,7 +41,7 @@ function EditBudgetButton({ budget }: { budget: Budget }) {
     else {
       setIsLoading(true);
       await axios
-        .patch(`/api/budgets/${budget.id}`, data)
+        .patch(`/api/budgets/${budget.type}`, data)
         .then(() => {
           router.refresh();
           setIsOpen(false);

@@ -21,7 +21,7 @@ function BudgetCard(categoricalExpense: Props) {
   const isOverBudget = totalExpense > category.capacity;
 
   return (
-    <Link href={`/main/budgets/${category.id}`}>
+    <Link href={`/main/budgets/${category.type}`}>
       <Card className="space-y-5 cursor-pointer transition-colors hover:bg-[var(--gray-4)]">
         <Flex align="center" justify="between">
           <Flex align="center" gap="2">

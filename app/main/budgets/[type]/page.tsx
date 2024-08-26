@@ -1,28 +1,22 @@
 import { colorMap } from "@/app/(components)/ExpenseBadge";
 import ExpensesTable from "@/app/(components)/ExpensesTable";
-import prisma from "@/prisma/client";
+import { getUniqueBudget, getUniqueExpenses } from "@/app/main/utils";
+import { Category } from "@prisma/client";
 import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
+import { notFound } from "next/navigation";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
 import EditBudgetButton from "./EditBudgetDialog";
-import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth";
 
-async function SingleBudgetPage({ params }: { params: { id: string } }) {
-  const budget = await prisma.budget.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+async function SingleBudgetPage({ params }: { params: { type: Category } }) {
+  const session = await getServerSession(authOptions);
+
+  const budget = await getUniqueBudget(params.type);
 
   if (!budget) return notFound();
 
-  const expenses = await prisma.expense.findMany({
-    where: {
-      category: budget.type,
-    },
-    orderBy: {
-      date: "desc",
-    },
-  });
+  const expenses = await getUniqueExpenses(budget.type);
 
   const totalCategoryExpense = expenses.reduce(
     (a, expense) => a + expense.amount,
@@ -38,8 +32,8 @@ async function SingleBudgetPage({ params }: { params: { id: string } }) {
           {colorMap[budget.type].emoji} {colorMap[budget.type].label} Budget
         </Heading>
         <Flex gap="3">
-          <EditBudgetButton budget={budget} />
-          <DeleteBudgetButton budget={budget} />
+          <EditBudgetButton userId={session?.user.id!} budget={budget} />
+          <DeleteBudgetButton userId={session?.user.id!} budget={budget} />
         </Flex>
       </Flex>
       <Box className="mt-10">

@@ -1,5 +1,6 @@
 "use client";
 
+import { BudgetSchema } from "@/app/validations";
 import { Budget, Category } from "@prisma/client";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
@@ -18,9 +19,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
-import { BudgetSchema } from "@/app/validations";
 
-function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
+function NewBudgetDialog({
+  userId,
+  budgetsInUse,
+}: {
+  userId: string;
+  budgetsInUse: Budget[];
+}) {
   const usedBudgets = budgetsInUse.map((budgetInUse) => budgetInUse.type);
 
   let availableBudgets: Category[] = [];
@@ -40,6 +46,7 @@ function NewBudgetDialog({ budgetsInUse }: { budgetsInUse: Budget[] }) {
 
   const addBudget = () => {
     const data = {
+      userId: userId,
       type: selectedBudget,
       capacity: parseInt(amount),
     };

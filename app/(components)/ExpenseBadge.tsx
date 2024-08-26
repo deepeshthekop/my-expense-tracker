@@ -17,19 +17,26 @@ export const colorMap: Record<
       | "mint"
       | "crimson"
       | "gold";
-    emoji: "🏠" | "💡" | "🛠️" | "🚗" | "🛒" | "💊" | "🛍️" | "🍔" | "🎉" | "🔖";
+    emoji: string;
   }
 > = {
-  RENT: { label: "Rent", color: "crimson", emoji: "🏠" },
-  UTILITIES: { label: "Utilities", color: "mint", emoji: "💡" },
-  MAINTAINENCE: { label: "Maintainence", color: "red", emoji: "🛠️" },
-  TRANSPORT: { label: "Transport", color: "yellow", emoji: "🚗" },
-  GROCERIES: { label: "Groceries", color: "purple", emoji: "🛒" },
-  HEALTH: { label: "Health", color: "teal", emoji: "💊" },
-  SHOPPING: { label: "Shopping", color: "blue", emoji: "🛍️" },
-  FOOD: { label: "Food", color: "green", emoji: "🍔" },
-  ENTERTAINMENT: { label: "Entertainment", color: "orange", emoji: "🎉" },
-  MISCELLANEOUS: { label: "Miscellaneous", color: "gold", emoji: "🔖" },
+  HOME: { label: "Rent", color: "blue", emoji: "🏠" },
+  UTILITIES: { label: "Utilities", color: "crimson", emoji: "💡" },
+  TRANSPORT: { label: "Transport", color: "gold", emoji: "🚗" },
+  GROCERIES: { label: "Groceries", color: "green", emoji: "🛒" },
+  HEALTH: { label: "Health", color: "mint", emoji: "💊" },
+  SHOPPING: { label: "Shopping", color: "orange", emoji: "🛍️" },
+  ENTERTAINMENT: { label: "Entertainment", color: "purple", emoji: "🍿" },
+  INSAURANCE: { label: "Insaurance", color: "red", emoji: "🛡️" },
+  LOAN: { label: "Loan", color: "teal", emoji: "💰" },
+  SUBSCRIPTIONS: { label: "Subscriptions", color: "yellow", emoji: "📺" },
+  DINING: { label: "Dining", color: "blue", emoji: "🍽️" },
+  GROOMING: { label: "Grooming", color: "crimson", emoji: "💇‍♀️" },
+  EDUCATION: { label: "Education", color: "gold", emoji: "📚" },
+  GIVING: { label: "Giving", color: "green", emoji: "🎁" },
+  CASH: { label: "Cash", color: "mint", emoji: "💵" },
+  CHARGES: { label: "Charges", color: "orange", emoji: "💲" },
+  TRAVEL: { label: "Travel", color: "purple", emoji: "✈️" },
 };
 
 function ExpenseBadge({ category }: { category: Category }) {

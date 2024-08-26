@@ -1,14 +1,11 @@
-import prisma from "@/prisma/client";
+import { getSingleExpense } from "@/app/main/utils";
 import { Box, Heading } from "@radix-ui/themes";
-import ExpenseFormData from "../ExpenseFormData";
 import { notFound } from "next/navigation";
+import Provider from "../../Provider";
+import ExpenseFormData from "../ExpenseFormData";
 
 async function SingleExpensePage({ params }: { params: { id: string } }) {
-  const expense = await prisma.expense.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+  const expense = await getSingleExpense(params.id);
 
   if (!expense) return notFound();
 
@@ -17,7 +14,9 @@ async function SingleExpensePage({ params }: { params: { id: string } }) {
       <Heading size="8" className="mt-10">
         Expense
       </Heading>
-      <ExpenseFormData expense={expense} />
+      <Provider>
+        <ExpenseFormData expense={expense} />
+      </Provider>
     </Box>
   );
 }

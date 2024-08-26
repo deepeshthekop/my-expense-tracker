@@ -14,12 +14,13 @@ import {
 } from "@radix-ui/themes";
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import DeleteExpenseButton from "./DeleteExpense";
 import ExpenseBadge from "@/app/(components)/ExpenseBadge";
 import { useSession } from "next-auth/react";
+import { BsCurrencyDollar } from "react-icons/bs";
 
 type ExpenseFormData = z.infer<typeof ExpenseSchema>;
 
@@ -31,16 +32,19 @@ function ExpenseForm({ expense }: { expense?: Expense }) {
     expense ? expense.category : null
   );
 
-  const { data: session } = useSession();
+  const session = useSession();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<ExpenseFormData>({
     resolver: zodResolver(ExpenseSchema),
   });
+
+  setValue("userId", session.data?.user.id!);
 
   return (
     <>
@@ -77,14 +81,13 @@ function ExpenseForm({ expense }: { expense?: Expense }) {
             {expense && <DeleteExpenseButton expense={expense} />}
           </Flex>
         </Flex>
-
         <form
           className="mt-5"
           onSubmit={handleSubmit(async (data) => {
             setIsLoading(true);
 
             const newExpense: ExpenseFormData = {
-              userId: session!.user.id!,
+              userId: data.userId,
               title: data.title,
               amount: data.amount,
             };
@@ -118,7 +121,11 @@ function ExpenseForm({ expense }: { expense?: Expense }) {
                 size="3"
                 disabled={isLoading || !isEditing}
                 defaultValue={expense && expense.amount}
-              />
+              >
+                <TextField.Slot>
+                  <BsCurrencyDollar />
+                </TextField.Slot>
+              </TextField.Root>
               <Text color="red" size="1">
                 {errors.amount?.message}
               </Text>
@@ -145,7 +152,9 @@ function ExpenseForm({ expense }: { expense?: Expense }) {
               </Text>
             </label>
             {isEditing && (
-              <Button loading={isLoading}>{expense ? "Update" : "Add"}</Button>
+              <Button type="submit" loading={isLoading}>
+                {expense ? "Update" : "Add"}
+              </Button>
             )}
           </Flex>
         </form>

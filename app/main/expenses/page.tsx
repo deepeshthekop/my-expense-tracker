@@ -1,14 +1,11 @@
+import ExpensesTable from "@/app/(components)/ExpensesTable";
+import { getExpenses } from "@/app/main/utils";
 import { Box, Button, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
-import { getExpenses } from "@/app/utils";
-import ExpensesTable from "@/app/(components)/ExpensesTable";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/auth";
 
 async function ExpensesPage() {
-  const session = await getServerSession(authOptions);
-  const expenses = await getExpenses(session?.user.id!);
+  const expenses = await getExpenses();
 
   return (
     <Box className="m-10">

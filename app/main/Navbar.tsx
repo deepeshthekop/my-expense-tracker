@@ -84,13 +84,17 @@ function Navbar() {
           </Container>
         </Drawer>
 
-        <Flex gapX="3" align="center">
+        <Flex gapX="5" align="center">
           <Button
-            variant="soft"
+            variant="ghost"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            size="3"
+            className="p-2"
           >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            {theme === "dark" ? (
+              <SunIcon className="size-5" />
+            ) : (
+              <MoonIcon className="size-5" />
+            )}
           </Button>
 
           <DropdownMenu.Root>
