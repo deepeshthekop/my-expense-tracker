@@ -22,7 +22,7 @@ function BudgetCard(categoricalExpense: Props) {
 
   return (
     <Link href={`/main/budgets/${category.type}`}>
-      <Card className="space-y-5 cursor-pointer transition-colors hover:bg-[var(--gray-4)]">
+      <Card className="space-y-5 cursor-pointer hover:bg-[var(--gray-4)]">
         <Flex align="center" justify="between">
           <Flex align="center" gap="2">
             <ExpenseIcon category={category.type} />

@@ -74,7 +74,7 @@ function NewBudgetDialog({
     <Dialog.Root open={open}>
       <IconButton
         variant="soft"
-        className="border-2 border-dashed w-full h-[150px] cursor-pointer transition-colors"
+        className="border-2 border-dashed w-full h-[150px] cursor-pointer"
         onClick={() => {
           setIsOpen(true);
           setAmount("");

@@ -3,12 +3,12 @@ import { Expense } from "@prisma/client";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Box, Grid, IconButton, Popover, Text } from "@radix-ui/themes";
 import { BsPiggyBank } from "react-icons/bs";
-import { IoMdPaper } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
+import { LuReceipt } from "react-icons/lu";
 import ExpensesChart from "./ExpensesChart";
 import GlanceCard from "./GlanceCard";
 import RecentExpensesCard from "./RecentExpensesCard";
-import { getExpenses, getBudgets, getUser } from "./utils";
+import { getBudgets, getExpenses, getUser } from "./utils";
 
 async function Main() {
   const [user, expenses, budgets] = await Promise.all([
@@ -92,7 +92,7 @@ async function Main() {
           <GlanceCard
             title="Total Spend"
             amount={totalExpense}
-            icon={<IoMdPaper size={32} />}
+            icon={<LuReceipt size={32} />}
             popover={spendInfoButton}
           />
         </Grid>

@@ -21,15 +21,18 @@ function Sidebar() {
       className="hidden border-r bg-[var(--gray-2)] border-[var(--gray-5)] xl:block h-screen sticky top-0 z-20"
     >
       <Flex direction="column" justify="center">
-        <Box className="border-b h-[65px] p-5 border-[var(--gray-5)]">
+        <Flex
+          justify="center"
+          className="border-b h-[65px] border-[var(--gray-5)]"
+        >
           <Logo />
-        </Box>
+        </Flex>
         <Flex direction="column" gapY="3" className="p-5">
           {navItems.map((item) => (
             <Link
               key={item.label}
               href={item.link}
-              className={`flex items-center space-x-2 p-3 rounded-2xl transition-colors ${
+              className={`flex items-center space-x-2 p-3 rounded-2xl ${
                 currentPath === item.link
                   ? "bg-[var(--gray-5)] text-[var(--accent-9)]"
                   : "text-[var(--gray-11)]"

@@ -1,12 +1,19 @@
 import { Box, Flex, Text, Theme } from "@radix-ui/themes";
-import Logo from "../(components)/Logo";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import Logo from "../(components)/Logo";
+import { authOptions } from "../auth";
 
-function AuthLayout({
+async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
+  if (session) redirect("/main");
+
   return (
     <Box className="h-screen">
       <Theme appearance="inherit">
