@@ -74,7 +74,7 @@ async function SingleBudgetPage({ params }: { params: { type: Category } }) {
         </Flex>
         <Box className="mt-10 space-y-3">
           <Text className="text-xl">Latest Expenses</Text>
-          <ExpensesTable expenses={expenses} />
+          <ExpensesTable userId={session?.user.id!} expenses={expenses} />
         </Box>
       </Box>
     </Box>
