@@ -3,8 +3,12 @@ import { getExpenses } from "@/app/main/utils";
 import { Box, Button, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 import { MdOutlineAddToPhotos } from "react-icons/md";
+import NewExpenseDialog from "./NewExpenseDialog";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth";
 
 async function ExpensesPage() {
+  const session = await getServerSession(authOptions);
   const expenses = await getExpenses();
 
   return (
@@ -13,10 +17,7 @@ async function ExpensesPage() {
         Expenses
       </Heading>
       <Box className="mt-5 space-y-3">
-        <Button className="cursor-pointer">
-          <MdOutlineAddToPhotos />
-          <Link href="/main/expenses/new">Add Expense</Link>
-        </Button>
+        <NewExpenseDialog userId={session?.user.id!} />
         <ExpensesTable expenses={expenses!} />
       </Box>
     </Box>
