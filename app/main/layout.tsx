@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Provider from "./Provider";
+import { Toaster } from "react-hot-toast";
 
 export default function MainLayout({
   children,
@@ -25,6 +26,12 @@ export default function MainLayout({
         <Provider>
           <Navbar />
         </Provider>
+        <Toaster
+          toastOptions={{
+            className:
+              "border border-[var(--gray-5)] bg-[var(--gray-2)] text-[var(--gray-12)]",
+          }}
+        />
         {children}
       </Box>
     </Grid>

@@ -152,19 +152,13 @@ function ExpenseForm({ expense }: { expense?: Expense }) {
               </Text>
             </label>
             {isEditing && (
-              <Button type="submit" loading={isLoading}>
+              <Button loading={isLoading} onClick={() => console.log("hello")}>
                 {expense ? "Update" : "Add"}
               </Button>
             )}
           </Flex>
         </form>
       </Card>
-      <Toaster
-        toastOptions={{
-          className:
-            "border border-[var(--gray-5)] bg-[var(--gray-2)] text-[var(--gray-12)]",
-        }}
-      />
     </>
   );
 }

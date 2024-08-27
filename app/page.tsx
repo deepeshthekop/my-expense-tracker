@@ -36,14 +36,13 @@ async function LandingPage() {
             initial: "1",
             md: "2",
           }}
-          className="p-7 lg:my-32"
+          className="items-center p-7 lg:my-32"
           gap="5"
         >
           <Flex
-            justify="center"
             gap="5"
             direction="column"
-            className="h-fit"
+            className="h-fit w-full"
             gridColumn="1"
           >
             <Heading className="md:text-5xl lg:text-6xl">
