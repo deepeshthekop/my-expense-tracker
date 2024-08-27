@@ -1,23 +1,21 @@
 "use client";
 
+import ExpenseBadge from "@/app/(components)/ExpenseBadge";
 import { ExpenseSchema } from "@/app/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category } from "@prisma/client";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Category, Expense } from "@prisma/client";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Button,
-  Callout,
   Dialog,
   DropdownMenu,
   Flex,
-  IconButton,
   Text,
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import axios, { AxiosError } from "axios";
-import { error } from "console";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,7 +25,13 @@ import { z } from "zod";
 
 type ExpenseFormData = z.infer<typeof ExpenseSchema>;
 
-function NewExpenseDialog({ userId }: { userId: string }) {
+function NewExpenseDialog({
+  userId,
+  expense,
+}: {
+  userId: string;
+  expense?: Expense;
+}) {
   const [open, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
@@ -46,52 +50,94 @@ function NewExpenseDialog({ userId }: { userId: string }) {
     resolver: zodResolver(ExpenseSchema),
   });
 
-  const titleText = watch("title", "");
+  const titleText = watch("title", expense ? expense.title : "");
   setValue("userId", userId);
+
+  const deleteExpense = (expense: Expense) => {
+    setIsLoading(true);
+    axios
+      .delete(`/api/expenses/${expense.id}`, {
+        data: {
+          userId: userId,
+        },
+      })
+      .then(() => {
+        router.refresh();
+        setIsOpen(false);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <Dialog.Root open={open}>
       <Button
         onClick={() => {
           setIsOpen(true);
-          setSelectedCategory(null);
-          reset();
+          setSelectedCategory(expense ? expense.category : null);
+          if (!expense) reset();
         }}
+        variant={expense && "ghost"}
       >
-        <FaPlus />
-        <Text>Add New Expense</Text>
+        {expense ? (
+          <DotsHorizontalIcon />
+        ) : (
+          <>
+            <FaPlus />
+            <Text>Add New Expense</Text>
+          </>
+        )}
       </Button>
       <Dialog.Content
         className="min-w-fit max-w-[400px]"
         onInteractOutside={() => setIsOpen(false)}
         aria-describedby={undefined}
       >
-        <Dialog.Title>New Expense</Dialog.Title>
-        <Box>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger disabled={isLoading} className="my-2">
-              <Button variant="soft">
-                {selectedCategory || "Category"}
-                <DropdownMenu.TriggerIcon />
+        <Dialog.Title>
+          {expense ? (
+            <Flex justify="between">
+              <Text as="div">{expense.date.toLocaleDateString("en-GB")}</Text>
+              <Button
+                loading={isLoading}
+                color="red"
+                onClick={() => deleteExpense(expense)}
+              >
+                Delete
               </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content variant="soft">
-              <DropdownMenu.Item onClick={() => setSelectedCategory(null)}>
-                None
-              </DropdownMenu.Item>
-              {Object.values(Category).map((category) => (
-                <DropdownMenu.Item
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
+            </Flex>
+          ) : (
+            "New Expense"
+          )}
+        </Dialog.Title>
+        <Box>
+          {expense ? (
+            expense.category && <ExpenseBadge category={expense.category} />
+          ) : (
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger disabled={isLoading} className="my-2">
+                <Button variant="soft">
+                  {selectedCategory || "Category"}
+                  <DropdownMenu.TriggerIcon />
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content variant="soft">
+                <DropdownMenu.Item onClick={() => setSelectedCategory(null)}>
+                  None
                 </DropdownMenu.Item>
-              ))}
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
+                {Object.values(Category).map((category) => (
+                  <DropdownMenu.Item
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </DropdownMenu.Item>
+                ))}
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          )}
           <form
-            className="mt-5"
-            onSubmit={handleSubmit(async (data) => {
+            className="mt-3"
+            onSubmit={handleSubmit((data) => {
               setIsLoading(true);
 
               const newExpense: ExpenseFormData = {
@@ -103,7 +149,7 @@ function NewExpenseDialog({ userId }: { userId: string }) {
               if (selectedCategory !== null)
                 newExpense.category = selectedCategory!;
 
-              await axios
+              axios
                 .post("/api/expenses", newExpense)
                 .then(() => {
                   router.refresh();
@@ -118,10 +164,11 @@ function NewExpenseDialog({ userId }: { userId: string }) {
                 <Text className="text-md">Amount</Text>
                 <TextField.Root
                   {...register("amount")}
+                  defaultValue={expense?.amount || ""}
                   type="number"
                   placeholder="Your expense"
                   size="3"
-                  disabled={isLoading}
+                  disabled={isLoading || (expense && true)}
                 >
                   <TextField.Slot>
                     <BsCurrencyDollar />
@@ -140,9 +187,10 @@ function NewExpenseDialog({ userId }: { userId: string }) {
                 </Flex>
                 <TextArea
                   {...register("title")}
+                  defaultValue={expense?.title || ""}
                   variant="surface"
                   placeholder="Your expense title"
-                  disabled={isLoading}
+                  disabled={isLoading || (expense && true)}
                   className="w-full h-32"
                   size="3"
                 />
@@ -151,10 +199,15 @@ function NewExpenseDialog({ userId }: { userId: string }) {
                 </Text>
               </label>
               <Flex justify="end" gap="2">
-                <Button color="gray" variant="soft">
-                  Cancel
+                <Button
+                  type="button"
+                  color="gray"
+                  variant="soft"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {expense ? "Close" : "Cancel"}
                 </Button>
-                <Button loading={isLoading}>Add</Button>
+                {!expense && <Button loading={isLoading}>Add</Button>}
               </Flex>
             </Flex>
           </form>

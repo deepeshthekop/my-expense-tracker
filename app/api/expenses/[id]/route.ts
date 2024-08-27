@@ -5,8 +5,11 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const body = await request.json();
+
   const expense = await prisma.expense.findUnique({
     where: {
+      userId: body.userId,
       id: params.id,
     },
   });

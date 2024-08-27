@@ -1,9 +1,15 @@
 import { Expense } from "@prisma/client";
-import { Table } from "@radix-ui/themes";
-import Link from "next/link";
+import { Flex, Table } from "@radix-ui/themes";
+import NewExpenseDialog from "../main/expenses/NewExpenseDialog";
 import ExpenseBadge from "./ExpenseBadge";
 
-function ExpensesTable({ expenses }: { expenses: Expense[] }) {
+function ExpensesTable({
+  userId,
+  expenses,
+}: {
+  userId: string;
+  expenses: Expense[];
+}) {
   return (
     <Table.Root size="2">
       <Table.Header>
@@ -20,35 +26,41 @@ function ExpensesTable({ expenses }: { expenses: Expense[] }) {
           <Table.ColumnHeaderCell className="font-medium">
             Amount
           </Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell />
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {expenses.map((expense) => (
-          <Table.Row key={expense.id}>
-            <Table.Cell py="5">
-              {expense.date.toLocaleDateString("en-GB", {
-                month: "short",
-                day: "numeric",
-              })}
+          <Table.Row key={expense.id} className="h-20">
+            <Table.Cell>
+              <Flex align="center" className="h-full">
+                {expense.date.toLocaleDateString("en-GB", {
+                  month: "short",
+                  day: "numeric",
+                })}
+              </Flex>
             </Table.Cell>
-            <Table.Cell py="5" className="hidden md:table-cell">
-              <Link
-                className="md:border-b border-dashed border-[var(--gray-12)]"
-                href={`/main/expenses/${expense.id}`}
-              >
+            <Table.Cell className="hidden md:table-cell">
+              <Flex align="center" className="h-full">
                 {expense.title}
-              </Link>
+              </Flex>
             </Table.Cell>
-            <Table.Cell py="5">
-              {expense.category && <ExpenseBadge category={expense.category} />}
+            <Table.Cell>
+              <Flex align="center" className="h-full">
+                {expense.category && (
+                  <ExpenseBadge category={expense.category} />
+                )}
+              </Flex>
             </Table.Cell>
-            <Table.Cell py="5" className="text-nowrap">
-              <Link
-                href={`/main/expenses/${expense.id}`}
-                className="border-b border-dashed border-[var(--gray-12)] md:border-none"
-              >
+            <Table.Cell className="text-nowrap">
+              <Flex align="center" className="h-full">
                 ${expense.amount}
-              </Link>
+              </Flex>
+            </Table.Cell>
+            <Table.Cell>
+              <Flex align="center" className="h-full">
+                <NewExpenseDialog userId={userId} expense={expense} />
+              </Flex>
             </Table.Cell>
           </Table.Row>
         ))}
