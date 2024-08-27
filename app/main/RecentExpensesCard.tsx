@@ -4,7 +4,7 @@ import ExpenseBadge from "@/app/(components)/ExpenseBadge";
 
 function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
   return (
-    <Card className="p-5 space-y-4 h-[350px]">
+    <Card className="p-5 space-y-4 h-full">
       <Text as="p" className="text-2xl" weight="bold">
         Recent Expenses
       </Text>
@@ -13,27 +13,32 @@ function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
           <Text className="text-base md:text-lg text">No recent expenses.</Text>
         </Flex>
       ) : (
-        <ScrollArea
-          className="min-h-fit max-h-60"
-          scrollbars="vertical"
-          type="auto"
-        >
-          <Box className="mr-4 space-y-3">
+        <ScrollArea className="min-h-fit" scrollbars="vertical" type="auto">
+          <Box className="mr-4 pb-5">
             {expenses.map((expense) => (
-              <Card key={expense.id}>
+              <Card key={expense.id} className="mb-5">
                 <Flex justify="between" align="end">
-                  <Box>
-                    <Text as="div">{expense.title}</Text>
+                  <Flex justify="between" direction="column" gapY="2">
+                    {expense.category && (
+                      <div className="sm:hidden">
+                        <ExpenseBadge category={expense.category} />
+                      </div>
+                    )}
+                    <Text as="div" className="hidden sm:block">
+                      {expense.title}
+                    </Text>
                     <Text size="2">
                       {expense.date.toLocaleDateString("en-GB")}
                     </Text>
-                  </Box>
-                  <Flex justify="between" direction="column" gapY="2">
+                  </Flex>
+                  <Flex direction="column" gapY="2">
                     <Text align="right" weight="bold">
                       $ {expense.amount}
                     </Text>
                     {expense.category && (
-                      <ExpenseBadge category={expense.category} />
+                      <div className="hidden sm:block">
+                        <ExpenseBadge category={expense.category} />
+                      </div>
                     )}
                   </Flex>
                 </Flex>

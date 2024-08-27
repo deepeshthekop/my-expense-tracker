@@ -6,6 +6,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -45,47 +46,45 @@ function CustomTooltip({
 
 function ExpensesChart({ data }: { data: Expense[] }) {
   return (
-    <Card className="p-5 w-full space-y-3 h-[350px]">
-      <Text className="text-2xl" weight="bold">
-        Your Last 7 Expenses
+    <Card className="flex flex-col justify-between h-full p-5 space-y-4">
+      <Text as="div" className="text-2xl" weight="bold">
+        Your last 7 expenses
       </Text>
-      <ResponsiveContainer
-        width="100%"
-        height="100%"
-        className="pt-5 pb-10 text-xs [&_.recharts-cartesian-axis-tick_text]:fill-[var(--gray-11)] [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-[var(--gray-6)] [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-[var(--color-panel-translucent)]"
-      >
-        {data.length === 0 ? (
-          <Flex justify="center" align="center" className="h-[200px]">
-            <Text className="text-base md:text-lg text">
-              No recent expenses.
-            </Text>
-          </Flex>
-        ) : (
-          <BarChart data={data}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(date: any) =>
-                date.toLocaleDateString("en-GB", {
-                  month: "short",
-                  day: "2-digit",
-                })
-              }
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar
-              dataKey="amount"
-              fill="var(--accent-11)"
-              className="rounded-lg"
-              barSize={60}
-              radius={10}
-            />
-          </BarChart>
-        )}
-      </ResponsiveContainer>
+      <Box className="min-h-[200px]">
+        <ResponsiveContainer className="flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-[var(--gray-11)] [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-[var(--gray-6)] [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-[var(--color-panel-translucent)]">
+          {data.length === 0 ? (
+            <Flex justify="center" align="center" className="h-[200px]">
+              <Text className="text-base md:text-lg text">
+                No recent expenses.
+              </Text>
+            </Flex>
+          ) : (
+            <BarChart data={data}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(date: any) =>
+                  date.toLocaleDateString("en-GB", {
+                    month: "short",
+                    day: "2-digit",
+                  })
+                }
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar
+                dataKey="amount"
+                fill="var(--accent-11)"
+                className="rounded-lg"
+                barSize={60}
+                radius={10}
+              />
+            </BarChart>
+          )}
+        </ResponsiveContainer>
+      </Box>
     </Card>
   );
 }
