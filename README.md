@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Expense Tracker
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Database Schema](#database-schema)
+5. [API Routes](#api-routes)
+6. [Authentication](#authentication)
+7. [RESTful Principles](#restful-principles)
+8. [Setup and Installation](#setup-and-installation)
+9. [Usage](#usage)
+10. [Contributing](#contributing)
+11. [License](#license)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Project Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Expense Tracker is a full-stack web application that allows users to track their expenses, manage budgets, and view their spending habits. Built with a focus on user authentication and secure data management, this application ensures that only authorized users can access their personal financial information. The application features a REST API for handling CRUD operations related to users, expenses, and budgets.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- User authentication with JWT-based session management.
+- CRUD operations for managing expenses and budgets through REST API.
+- Categorization of expenses and budgets into predefined categories.
+- Responsive UI built using the Radix UI library.
+- Data persistence using PostgreSQL and Prisma ORM.
+- Protected `/main` route accessible only to logged-in users, enforced by Next Auth middleware.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** React.js
+- **Backend:** Next.js
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **UI Library:** Radix UI
+- **Authentication:** Next Auth with JWT token-based sessions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database Schema
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The database consists of three tables: `users`, `expenses`, and `budgets`.
 
-## Deploy on Vercel
+![ER Diagram](docs/erd.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Users Table**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   - `userId` (Primary Key)
+   - `email` (Unique)
+   - `name`
+   - `password` (Hashed)
+   - `createdAt`
+
+2. **Expenses Table**
+
+   - `expenseId` (Primary Key)
+   - `userId` (Foreign Key)
+   - `amount`
+   - `title`
+   - `date`
+   - `type` (Predefined categories as ENUM in schema)
+
+3. **Budgets Table**
+   - `userId` (Foreign Key)
+   - `type` (Predefined categories, part of composite primary key)
+   - `budgetAmount`
+   - Composite Primary Key: (`userId`, `type`)
+
+The `users` table has a one-to-many relationship with both `expenses` and `budgets` tables, linked through `userId`.
+
+## API Routes
+
+1. **/api/users**
+
+   - **POST:** Create a new user.
+   - **PATCH:** Update user details.
+   - **DELETE:** Remove a user.
+
+2. **/api/expenses**
+
+   - **POST:** Add a new expense.
+   - **PATCH:** Update an existing expense.
+   - **DELETE:** Delete an expense.
+
+3. **/api/budgets**
+   - **POST:** Set a new budget.
+   - **PATCH:** Update an existing budget.
+   - **DELETE:** Remove a budget.
+
+## Authentication
+
+- The app uses Next Auth for authentication, with sessions managed via JWT tokens.
+- The `/main` route, which provides access to the main application dashboard, is protected by Next Auth middleware, ensuring that only logged-in users can access their expense and budget data.
+
+## RESTful Principles
+
+The API follows RESTful principles, using standard HTTP methods (POST, PATCH, DELETE) to perform CRUD operations. Each route is structured to represent a specific resource, and operations are defined clearly to interact with these resources. This approach ensures consistency, scalability, and ease of use for the API.
+
+## Setup and Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/GlowingObsidian/expense-tracker.git
+   cd expense-tracker
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+   Create a `.env` file in the root directory with the following variables:
+
+   ```env
+   DATABASE_URL_POOLING=your_postgresql_pooling_url
+   DATABASE_URL_DIRECT=your_postgresql_direct_url
+   NEXTAUTH_SECRET=your_next_auth_secret
+   NEXTAUTH_URL=your_next_auth_url
+   ```
+
+4. **Run database migrations:**
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+6. **Access the app:**
+   Open your browser and navigate to `http://localhost:3000`.
+
+## Usage
+
+- Sign up or log in to access the main dashboard.
+- Add, edit, or delete expenses and budgets.
+- View your spending and budget status.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request for any features, bug fixes, or enhancements.
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+Feel free to make any further adjustments or let me know if there's more you'd like to include!
