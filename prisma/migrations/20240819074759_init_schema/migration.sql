@@ -1,0 +1,13 @@
+-- CreateEnum
+CREATE TYPE "Category" AS ENUM ('RENT', 'UTILITIES', 'MAINTAINENCE', 'TRANSPORT', 'GROCERIES', 'HEALTH', 'SHOPPING', 'FOOD', 'ENTERTAINMENT', 'MISCELLANEOUS');
+
+-- CreateTable
+CREATE TABLE "Expense" (
+    "id" SERIAL NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "title" TEXT NOT NULL,
+    "category" "Category",
+
+    CONSTRAINT "Expense_pkey" PRIMARY KEY ("id")
+);

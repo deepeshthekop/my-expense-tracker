@@ -20,7 +20,7 @@ export const colorMap: Record<
     emoji: string;
   }
 > = {
-  HOME: { label: "Rent", color: "blue", emoji: "🏠" },
+  HOME: { label: "Home", color: "blue", emoji: "🏠" },
   UTILITIES: { label: "Utilities", color: "crimson", emoji: "💡" },
   TRANSPORT: { label: "Transport", color: "gold", emoji: "🚗" },
   GROCERIES: { label: "Groceries", color: "green", emoji: "🛒" },
