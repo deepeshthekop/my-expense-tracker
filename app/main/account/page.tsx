@@ -29,48 +29,46 @@ async function page() {
       <Heading size="8" className="mt-10">
         Account
       </Heading>
-      <Flex justify="center">
-        <Card className="mt-10 min-w-fit w-[500px] p-5">
-          <Flex direction="column" align="center" gap="3">
-            <Avatar
-              size="7"
-              radius="full"
-              src={user?.image!}
-              fallback="?"
-              className="p-1 border-2 border-[var(--accent-9)]"
-            />
-            <Heading size="7">{user?.name!}</Heading>
-          </Flex>
-          <Text as="p" align="center" className="text-[var(--gray-11)]">
-            User since{" "}
-            {user?.createdAt.toLocaleString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Text>
-          <Separator className="w-full mt-3" />
-          <Box className="my-7 space-y-2">
-            <div>
-              <Text className="text-[var(--gray-11)]">Email: </Text>
-              <Text> {user?.email}</Text>
-            </div>
-            <div>
-              <Text className="text-[var(--gray-11)]">Expenses created: </Text>
-              <Text> {expenses?.length}</Text>
-            </div>
-            <div>
-              <Text className="text-[var(--gray-11)]">Max expense: </Text>
-              <Text> $ {maxExpense}</Text>
-            </div>
-            <div>
-              <Text className="text-[var(--gray-11)]">Budgets added: </Text>
-              <Text> {budgets?.length}</Text>
-            </div>
-          </Box>
-          <SignOutButton />
-        </Card>
-      </Flex>
+      <Card className="mx-auto mt-10 min-w-fit max-w-[500px] p-5">
+        <Flex direction="column" align="center" gap="3">
+          <Avatar
+            size="7"
+            radius="full"
+            src={user?.image!}
+            fallback="?"
+            className="p-1 border-2 border-[var(--accent-9)]"
+          />
+          <Heading size="7">{user?.name!}</Heading>
+        </Flex>
+        <Text as="p" align="center" className="text-[var(--gray-11)]">
+          User since{" "}
+          {user?.createdAt.toLocaleString("en-GB", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </Text>
+        <Separator className="w-full mt-3" />
+        <Box className="my-7 space-y-2">
+          <div>
+            <Text className="text-[var(--gray-11)]">Email: </Text>
+            <Text> {user?.email}</Text>
+          </div>
+          <div>
+            <Text className="text-[var(--gray-11)]">Expenses created: </Text>
+            <Text> {expenses?.length}</Text>
+          </div>
+          <div>
+            <Text className="text-[var(--gray-11)]">Max expense: </Text>
+            <Text> $ {maxExpense}</Text>
+          </div>
+          <div>
+            <Text className="text-[var(--gray-11)]">Budgets added: </Text>
+            <Text> {budgets?.length}</Text>
+          </div>
+        </Box>
+        <SignOutButton />
+      </Card>
     </Box>
   );
 }
