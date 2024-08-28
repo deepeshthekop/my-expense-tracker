@@ -19,7 +19,7 @@ function GlanceCard({
       <Flex className="p-2" align="center" justify="between">
         <Flex className="space-y-2" direction="column">
           <Flex align="center" gapX="3">
-            <Text as="p" className="text-xl">
+            <Text as="p" className="text-sm sm:text-xl">
               {title}
             </Text>
             {popover}
@@ -27,7 +27,7 @@ function GlanceCard({
           <Text
             as="p"
             color={amount < 0 ? "red" : undefined}
-            className="text-3xl"
+            className="text-xl sm:text-3xl"
             weight="bold"
           >
             $ <CountUp end={amount} duration={2} />

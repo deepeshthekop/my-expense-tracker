@@ -47,7 +47,7 @@ function ExpensesChart({ data }: { data: Expense[] }) {
   return (
     <Card className="flex flex-col justify-between h-full p-5 space-y-4">
       <Text as="div" className="text-2xl" weight="bold">
-        Your last 7 expenses
+        Last 7 Expenses
       </Text>
       <Box className="min-h-[200px]">
         <ResponsiveContainer className="flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-[var(--gray-11)] [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-[var(--gray-6)] [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-[var(--color-panel-translucent)]">

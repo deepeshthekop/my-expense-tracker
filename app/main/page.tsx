@@ -69,7 +69,7 @@ async function Main() {
   );
 
   return (
-    <Box className="m-10">
+    <Box className="m-5 md:m-10">
       <Text className="text-3xl md:text-5xl" weight="bold">
         Hi, {user!.name.split(" ")[0]} 👋
       </Text>

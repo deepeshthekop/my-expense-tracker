@@ -37,7 +37,14 @@ function DeleteBudgetButton({
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
-        <Button color="red" loading={isLoading}>
+        <Button
+          color="red"
+          loading={isLoading}
+          size={{
+            initial: "1",
+            sm: "2",
+          }}
+        >
           <TrashIcon />
           Delete
         </Button>

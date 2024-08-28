@@ -10,7 +10,7 @@ async function ExpensesPage() {
   const expenses = await getExpenses();
 
   return (
-    <Box className="m-10">
+    <Box className="m-5 md:m-10">
       <Heading size="8" className="mt-10">
         Expenses
       </Heading>

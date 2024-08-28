@@ -60,6 +60,10 @@ function EditBudgetButton({
           setAmount("");
           setIsOpen(true);
         }}
+        size={{
+          initial: "1",
+          sm: "2",
+        }}
       >
         <Pencil1Icon />
         Edit

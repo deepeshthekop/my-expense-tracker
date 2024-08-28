@@ -13,8 +13,8 @@ function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
           <Text className="text-base md:text-lg text">No recent expenses.</Text>
         </Flex>
       ) : (
-        <ScrollArea className="min-h-fit" scrollbars="vertical" type="auto">
-          <Box className="mr-4 pb-5">
+        <ScrollArea className="min-h-fit" scrollbars="vertical">
+          <Box className="pb-5">
             {expenses.map((expense) => (
               <Card key={expense.id} className="mb-5">
                 <Flex justify="between" align="end">

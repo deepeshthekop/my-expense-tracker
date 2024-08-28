@@ -26,9 +26,21 @@ async function SingleBudgetPage({ params }: { params: { type: Category } }) {
   const isOverBudget = totalCategoryExpense > budget.capacity;
 
   return (
-    <Box className="m-10">
-      <Flex align="center" justify="between" className="mt-10">
-        <Heading className="text-xl md:text-3xl lg:text-5xl">
+    <Box className="m-5 md:m-10">
+      <Flex
+        align={{
+          initial: "start",
+          sm: "center",
+        }}
+        direction={{
+          initial: "column",
+          sm: "row",
+        }}
+        gap="3"
+        justify="between"
+        className="mt-10"
+      >
+        <Heading className="text-2xl md:text-3xl lg:text-5xl">
           {colorMap[budget.type].emoji} {colorMap[budget.type].label} Budget
         </Heading>
         <Flex gap="3">
