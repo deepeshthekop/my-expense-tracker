@@ -34,6 +34,7 @@ The Expense Tracker is a full-stack SaaS web application that allows users to tr
 - **Database:** PostgreSQL
 - **ORM:** Prisma
 - **UI Library:** Radix UI
+- **Styling:** Tailwind CSS
 - **Authentication:** Next Auth with JWT token-based sessions
 
 ## Database Schema

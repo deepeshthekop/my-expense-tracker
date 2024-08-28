@@ -24,11 +24,17 @@ export const BudgetPatchSchema = z.object({
 
 export const RegistrationSchema = z.object({
   name: z.string().min(1, "Please enter your name."),
-  email: z.string().min(1, "Please enter your email."),
+  email: z
+    .string()
+    .min(1, "Please enter your email.")
+    .email("Email is not valid."),
   password: z.string().min(1, "Please enter your password."),
 });
 
 export const SignInSchema = z.object({
-  email: z.string().min(1, "Please enter your email."),
+  email: z
+    .string()
+    .min(1, "Please enter your email.")
+    .email("Email is not valid."),
   password: z.string().min(1, "Please enter your password."),
 });
