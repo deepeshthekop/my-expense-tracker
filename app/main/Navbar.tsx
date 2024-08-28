@@ -15,6 +15,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiHome, FiPieChart } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
@@ -35,6 +36,7 @@ const navItems = [
 function Navbar() {
   const currentPath = usePathname();
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -119,8 +121,11 @@ function Navbar() {
                 </Text>
               </Flex>
               <DropdownMenu.Separator />
+              <DropdownMenu.Item onSelect={() => router.push("/main/account")}>
+                Account
+              </DropdownMenu.Item>
               <DropdownMenu.Item
-                onClick={() =>
+                onSelect={() =>
                   signOut({
                     redirect: true,
                     callbackUrl: "/auth/signin",
