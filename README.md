@@ -16,7 +16,7 @@
 
 ## Project Overview
 
-The Expense Tracker is a full-stack web application that allows users to track their expenses, manage budgets, and view their spending habits. Built with a focus on user authentication and secure data management, this application ensures that only authorized users can access their personal financial information. The application features a REST API for handling CRUD operations related to users, expenses, and budgets.
+The Expense Tracker is a full-stack SaaS web application that allows users to track their expenses, manage budgets, and view their spending habits. Built with a focus on user authentication and secure data management, this application ensures that only authorized users can access their personal financial information. The application features a REST API for handling CRUD operations related to users, expenses, and budgets.
 
 ## Features
 
@@ -29,8 +29,8 @@ The Expense Tracker is a full-stack web application that allows users to track t
 
 ## Tech Stack
 
-- **Frontend:** React.js
-- **Backend:** Next.js
+- **Frontend:** React.js (Typescript)
+- **Backend:** Next.js (Typescript)
 - **Database:** PostgreSQL
 - **ORM:** Prisma
 - **UI Library:** Radix UI
@@ -44,25 +44,26 @@ The database consists of three tables: `users`, `expenses`, and `budgets`.
 
 1. **Users Table**
 
-   - `userId` (Primary Key)
+   - `id` (Primary Key)
    - `email` (Unique)
    - `name`
    - `password` (Hashed)
    - `createdAt`
+   - `image` (URL to image)
 
 2. **Expenses Table**
 
-   - `expenseId` (Primary Key)
+   - `id` (Primary Key)
    - `userId` (Foreign Key)
    - `amount`
    - `title`
    - `date`
-   - `type` (Predefined categories as ENUM in schema)
+   - `category` (Predefined categories as ENUM in schema)
 
 3. **Budgets Table**
    - `userId` (Foreign Key)
    - `type` (Predefined categories, part of composite primary key)
-   - `budgetAmount`
+   - `capacity`
    - Composite Primary Key: (`userId`, `type`)
 
 The `users` table has a one-to-many relationship with both `expenses` and `budgets` tables, linked through `userId`.
@@ -72,19 +73,20 @@ The `users` table has a one-to-many relationship with both `expenses` and `budge
 1. **/api/users**
 
    - **POST:** Create a new user.
-   - **PATCH:** Update user details.
-   - **DELETE:** Remove a user.
 
 2. **/api/expenses**
 
    - **POST:** Add a new expense.
-   - **PATCH:** Update an existing expense.
    - **DELETE:** Delete an expense.
 
 3. **/api/budgets**
+
    - **POST:** Set a new budget.
    - **PATCH:** Update an existing budget.
    - **DELETE:** Remove a budget.
+
+4. **/api/auth**
+   - Next Auth API authentication route.
 
 ## Authentication
 
