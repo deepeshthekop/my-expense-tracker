@@ -9,10 +9,12 @@
 5. [API Routes](#api-routes)
 6. [Authentication](#authentication)
 7. [RESTful Principles](#restful-principles)
-8. [Setup and Installation](#setup-and-installation)
-9. [Usage](#usage)
-10. [Contributing](#contributing)
-11. [License](#license)
+8. [Deployment](#deployment)
+9. [Software Engineering Model](#software-engineering-model)
+10. [Setup and Installation](#setup-and-installation)
+11. [Usage](#usage)
+12. [Contributing](#contributing)
+13. [License](#license)
 
 ## Project Overview
 
