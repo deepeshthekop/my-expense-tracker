@@ -98,6 +98,14 @@ The `users` table has a one-to-many relationship with both `expenses` and `budge
 
 The API follows RESTful principles, using standard HTTP methods (POST, PATCH, DELETE) to perform CRUD operations. Each route is structured to represent a specific resource, and operations are defined clearly to interact with these resources. This approach ensures consistency, scalability, and ease of use for the API.
 
+## Deployment
+
+The application is hosted on Vercel. Continuous Deployment (CD) is configured, meaning any new commits pushed to the main branch on GitHub trigger automatic deployments to the Vercel hosting environment.
+
+## Software Engineering Model
+
+This project follows the Iterative Incremental Development Model, where features are developed one at a time, tested, and integrated incrementally. This approach allows for continuous improvement and adaptation of the application, ensuring stability and functionality with each new feature addition.
+
 ## Setup and Installation
 
 1. **Clone the repository:**
