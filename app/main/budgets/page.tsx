@@ -14,7 +14,7 @@ async function budgetsPage() {
   let categoricalExpenses: { category: Budget; expenses: Expense[] }[] = [];
 
   for (let i = 0; i < budgets!.length; i++) {
-    const expenses = await getExpenses(budgets![i].type);
+    const expenses = await getExpenses({ category: budgets![i].type });
 
     categoricalExpenses = [
       ...categoricalExpenses,

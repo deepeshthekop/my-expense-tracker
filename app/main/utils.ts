@@ -24,7 +24,7 @@ export async function getExpenses({
   page?: number;
   category?: Category | null;
   sorting?: { by: keyof Expense | undefined; direction: "asc" | "desc" };
-}) {
+} = {}) {
   const session = await getServerSession(authOptions);
 
   const where = category

@@ -16,7 +16,7 @@ async function SingleBudgetPage({ params }: { params: { type: Category } }) {
 
   if (!budget) return notFound();
 
-  const expenses = await getExpenses(budget.type);
+  const expenses = await getExpenses({ category: budget.type });
 
   const totalCategoryExpense = expenses.reduce(
     (a, expense) => a + expense.amount,
