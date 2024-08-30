@@ -7,7 +7,7 @@ import NewExpenseDialog from "./NewExpenseDialog";
 import { Category, Expense } from "@prisma/client";
 import Pagination from "@/app/(components)/Pagination";
 
-const validSort = ["amount", "description", "date"];
+const validSort = ["amount", "title", "date"];
 
 async function ExpensesPage({
   searchParams,

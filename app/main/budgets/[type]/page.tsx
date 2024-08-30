@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
 import EditBudgetButton from "./EditBudgetDialog";
+import UseageBar from "@/app/(components)/UsageBar";
 
 async function SingleBudgetPage({ params }: { params: { type: Category } }) {
   const session = await getServerSession(authOptions);
@@ -62,27 +63,7 @@ async function SingleBudgetPage({ params }: { params: { type: Category } }) {
               (totalCategoryExpense / budget.capacity) * 100
             )} %)`}</Text>
           </Text>
-          <Flex direction="column">
-            <Flex justify="between">
-              <Text
-                className={`text-sm text-end ${
-                  isOverBudget ? "text-red-500" : "text-[var(--gray-11)]"
-                }`}
-              >
-                $ {totalCategoryExpense}
-              </Text>
-              <Text className="text-sm text-end text-[var(--gray-11)]">
-                $ {budget.capacity}
-              </Text>
-            </Flex>
-            <Progress
-              value={
-                isOverBudget
-                  ? 100
-                  : (totalCategoryExpense / budget.capacity) * 100
-              }
-            />
-          </Flex>
+          <UseageBar spend={totalCategoryExpense} total={budget.capacity} />
         </Flex>
         <Box className="mt-10 space-y-3">
           <Text className="text-xl">Latest Expenses</Text>

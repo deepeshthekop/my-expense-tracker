@@ -2,6 +2,7 @@ import { Budget, Expense } from "@prisma/client";
 import { Box, Card, Flex, Progress, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { ExpenseIcon } from "@/app/(components)/ExpenseBadge";
+import UseageBar from "@/app/(components)/UsageBar";
 
 interface Props {
   categoricalExpense: {
@@ -18,11 +19,9 @@ function BudgetCard(categoricalExpense: Props) {
     [0, 0]
   );
 
-  const isOverBudget = totalExpense > category.capacity;
-
   return (
     <Link href={`/main/budgets/${category.type}`}>
-      <Card className="space-y-5 cursor-pointer hover:bg-[var(--gray-4)]">
+      <Card className="h-full space-y-5 cursor-pointer hover:bg-[var(--gray-4)]">
         <Flex align="center" justify="between">
           <Flex align="center" gap="2">
             <ExpenseIcon category={category.type} />
@@ -40,25 +39,7 @@ function BudgetCard(categoricalExpense: Props) {
             $ {category.capacity}
           </Text>
         </Flex>
-        <Flex direction="column" gap="2">
-          <Flex justify="between">
-            <Text className="text-sm text-[var(--gray-11)]">
-              $ {totalExpense} Spend
-            </Text>
-            <Text
-              className={`text-sm ${
-                isOverBudget ? "text-red-500" : "text-[var(--gray-11)]"
-              }`}
-            >
-              $ {category.capacity - totalExpense} Remaining
-            </Text>
-          </Flex>
-          <Progress
-            value={
-              isOverBudget ? 100 : (totalExpense / category.capacity) * 100
-            }
-          />
-        </Flex>
+        <UseageBar spend={totalExpense} total={category.capacity} />
       </Card>
     </Link>
   );
