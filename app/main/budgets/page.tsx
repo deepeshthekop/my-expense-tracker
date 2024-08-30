@@ -7,7 +7,11 @@ import BudgetCard from "./BudgetCard";
 import NewBudgetDialog from "./NewBudgetDialog";
 import { revalidatePath } from "next/cache";
 
-async function budgetsPage(searchParams: { update: boolean }) {
+async function budgetsPage({
+  searchParams,
+}: {
+  searchParams: { update: boolean };
+}) {
   const session = await getServerSession(authOptions);
 
   const budgets = await getBudgets();
