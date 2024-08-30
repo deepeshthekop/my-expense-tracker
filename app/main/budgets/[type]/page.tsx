@@ -1,13 +1,13 @@
 import { colorMap } from "@/app/(components)/ExpenseBadge";
 import ExpensesTable from "@/app/(components)/ExpensesTable";
-import { getUniqueBudget, getUniqueExpenses } from "@/app/main/utils";
+import { authOptions } from "@/app/auth";
+import { getExpenses, getUniqueBudget } from "@/app/main/utils";
 import { Category } from "@prisma/client";
 import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
 import EditBudgetButton from "./EditBudgetDialog";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/auth";
 
 async function SingleBudgetPage({ params }: { params: { type: Category } }) {
   const session = await getServerSession(authOptions);
@@ -16,7 +16,7 @@ async function SingleBudgetPage({ params }: { params: { type: Category } }) {
 
   if (!budget) return notFound();
 
-  const expenses = await getUniqueExpenses(budget.type);
+  const expenses = await getExpenses(budget.type);
 
   const totalCategoryExpense = expenses.reduce(
     (a, expense) => a + expense.amount,

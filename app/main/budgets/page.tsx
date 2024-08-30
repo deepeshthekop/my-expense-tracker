@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/auth";
-import { getBudgets, getUniqueExpenses } from "@/app/main/utils";
+import { getBudgets, getExpenses } from "@/app/main/utils";
 import { Budget, Expense } from "@prisma/client";
 import { Box, Grid, Heading } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
@@ -14,7 +14,7 @@ async function budgetsPage() {
   let categoricalExpenses: { category: Budget; expenses: Expense[] }[] = [];
 
   for (let i = 0; i < budgets!.length; i++) {
-    const expenses = await getUniqueExpenses(budgets![i].type);
+    const expenses = await getExpenses(budgets![i].type);
 
     categoricalExpenses = [
       ...categoricalExpenses,

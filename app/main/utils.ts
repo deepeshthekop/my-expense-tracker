@@ -1,7 +1,7 @@
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth";
-import { Category } from "@prisma/client";
+import { Category, Expense } from "@prisma/client";
 
 export async function getCategoricalExpenses() {
   const session = await getServerSession(authOptions);
@@ -14,8 +14,33 @@ export async function getCategoricalExpenses() {
   });
 }
 
-export async function getExpenses() {
+export async function getExpenses({
+  pageSize,
+  page,
+  category,
+  sorting,
+}: {
+  pageSize?: number;
+  page?: number;
+  category?: Category | null;
+  sorting?: { by: keyof Expense | undefined; direction: "asc" | "desc" };
+}) {
   const session = await getServerSession(authOptions);
+
+  const where = category
+    ? {
+        category,
+      }
+    : undefined;
+
+  const orderBy = sorting
+    ? {
+        [sorting.by ? sorting.by : "date"]: sorting.direction,
+      }
+    : undefined;
+
+  const take = pageSize ? pageSize : undefined;
+  const skip = page && pageSize ? (page - 1) * pageSize : undefined;
 
   const user = await prisma.user.findUnique({
     where: {
@@ -23,28 +48,15 @@ export async function getExpenses() {
     },
     include: {
       expenses: {
-        orderBy: {
-          date: "desc",
-        },
+        where,
+        orderBy: orderBy,
+        skip,
+        take,
       },
     },
   });
 
-  return user?.expenses;
-}
-
-export async function getUniqueExpenses(type: Category | null) {
-  const session = await getServerSession(authOptions);
-
-  return await prisma.expense.findMany({
-    where: {
-      userId: session?.user.id,
-      category: type,
-    },
-    orderBy: {
-      date: "desc",
-    },
-  });
+  return user?.expenses!;
 }
 
 export async function getSingleExpense(expenseId: string) {
@@ -80,7 +92,7 @@ export async function getUniqueBudget(type: Category) {
     where: {
       userId_type: {
         userId: session?.user.id!,
-        type: type,
+        type,
       },
     },
   });
