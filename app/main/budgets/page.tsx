@@ -7,16 +7,12 @@ import BudgetCard from "./BudgetCard";
 import NewBudgetDialog from "./NewBudgetDialog";
 import { revalidatePath } from "next/cache";
 
-async function budgetsPage({
-  searchParams,
-}: {
-  searchParams: { update: boolean };
-}) {
+async function budgetsPage() {
   const session = await getServerSession(authOptions);
 
   const budgets = await getBudgets();
 
-  if (searchParams.update) revalidatePath("/main/budgets");
+  revalidatePath("/main/budgets");
 
   let categoricalExpenses: { category: Budget; expenses: Expense[] }[] = [];
 

@@ -11,7 +11,7 @@ function Pagination({ page, pages }: { page: number; pages: number }) {
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    router.push(`/main/expenses?${params.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   if (page > pages) return null;

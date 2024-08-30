@@ -1,11 +1,12 @@
 import ExpensesTable from "@/app/(components)/ExpensesTable";
 import { authOptions } from "@/app/auth";
 import { getExpenses } from "@/app/main/utils";
-import { Box, Heading } from "@radix-ui/themes";
+import { Box, Flex, Heading } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import NewExpenseDialog from "./NewExpenseDialog";
 import { Category, Expense } from "@prisma/client";
 import Pagination from "@/app/(components)/Pagination";
+import SortByCategory from "@/app/(components)/SortByCategory";
 
 const validSort = ["amount", "title", "date"];
 
@@ -60,7 +61,10 @@ async function ExpensesPage({
         Expenses
       </Heading>
       <Box className="mt-5 space-y-5">
-        <NewExpenseDialog userId={session?.user.id!} />
+        <Flex justify="between" align="center">
+          <NewExpenseDialog userId={session?.user.id!} />
+          <SortByCategory />
+        </Flex>
         <ExpensesTable userId={session?.user.id!} expenses={expenses!} />
         <Pagination page={page} pages={pages} />
       </Box>

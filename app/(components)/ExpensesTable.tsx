@@ -1,7 +1,12 @@
+"use client";
+
 import { Expense } from "@prisma/client";
 import { Text, Flex, Table } from "@radix-ui/themes";
 import NewExpenseDialog from "../main/expenses/NewExpenseDialog";
 import ExpenseBadge from "./ExpenseBadge";
+import Direction from "./Direction";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function ExpensesTable({
   userId,
@@ -10,22 +15,96 @@ function ExpensesTable({
   userId: string;
   expenses: Expense[];
 }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const currentDirection = searchParams.get("direction")
+    ? searchParams.get("direction") === "asc"
+      ? "asc"
+      : "desc"
+    : undefined;
+
+  const setSorting = (
+    by: "date" | "title" | "amount",
+    direction: "asc" | "desc"
+  ) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (searchParams.get("sort") && searchParams.get("sort") === by) {
+      if (searchParams.get("direction") === "asc")
+        params.set("direction", "desc");
+      else {
+        params.delete("page");
+        params.delete("direction");
+        params.delete("sort");
+        params.delete("by");
+      }
+    } else {
+      params.delete("page");
+      params.set("sort", by);
+      params.set("direction", direction);
+    }
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <>
       <Table.Root size="2">
         <Table.Header>
           <Table.Row className="text-[var(--gray-11)]">
             <Table.ColumnHeaderCell className="font-medium">
-              Date
+              <Flex
+                align="center"
+                gapX="2"
+                onClick={() => setSorting("date", "asc")}
+                className="cursor-pointer"
+              >
+                <Text>Date</Text>
+                <Direction
+                  direction={
+                    searchParams.get("sort") === "date" && currentDirection
+                      ? currentDirection
+                      : undefined
+                  }
+                />
+              </Flex>
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="font-medium hidden md:table-cell">
-              Description
+              <Flex
+                align="center"
+                gapX="2"
+                onClick={() => setSorting("title", "asc")}
+                className="cursor-pointer"
+              >
+                <Text>Title</Text>
+                <Direction
+                  direction={
+                    searchParams.get("sort") === "title" && currentDirection
+                      ? currentDirection
+                      : undefined
+                  }
+                />
+              </Flex>
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="font-medium">
               Category
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="font-medium">
-              Amount
+              <Flex
+                align="center"
+                gapX="2"
+                onClick={() => setSorting("amount", "asc")}
+                className="cursor-pointer"
+              >
+                <Text>Amount</Text>
+                <Direction
+                  direction={
+                    searchParams.get("sort") === "amount" && currentDirection
+                      ? currentDirection
+                      : undefined
+                  }
+                />
+              </Flex>
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell />
           </Table.Row>

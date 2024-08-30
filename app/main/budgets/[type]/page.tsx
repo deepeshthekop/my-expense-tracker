@@ -1,23 +1,46 @@
 import { colorMap } from "@/app/(components)/ExpenseBadge";
 import ExpensesTable from "@/app/(components)/ExpensesTable";
+import UseageBar from "@/app/(components)/UsageBar";
 import { authOptions } from "@/app/auth";
 import { getExpenses, getUniqueBudget } from "@/app/main/utils";
-import { Category } from "@prisma/client";
-import { Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
+import { Category, Expense } from "@prisma/client";
+import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import DeleteBudgetButton from "./DeleteBudgetDialog";
 import EditBudgetButton from "./EditBudgetDialog";
-import UseageBar from "@/app/(components)/UsageBar";
 
-async function SingleBudgetPage({ params }: { params: { type: Category } }) {
+const validSort = ["amount", "title", "date"];
+
+async function SingleBudgetPage({
+  params,
+  searchParams,
+}: {
+  params: { type: Category };
+  searchParams: {
+    sort?: keyof Expense;
+    direction?: "asc" | "desc";
+  };
+}) {
   const session = await getServerSession(authOptions);
+
+  const by =
+    searchParams.sort && validSort.includes(searchParams.sort)
+      ? searchParams.sort
+      : undefined;
+  const direction =
+    searchParams.direction && ["asc", "desc"].includes(searchParams.direction)
+      ? searchParams.direction
+      : "desc";
 
   const budget = await getUniqueBudget(params.type);
 
   if (!budget) return notFound();
 
-  const expenses = await getExpenses({ category: budget.type });
+  const expenses = await getExpenses({
+    category: budget.type,
+    sorting: { by, direction },
+  });
 
   const totalCategoryExpense = expenses.reduce(
     (a, expense) => a + expense.amount,

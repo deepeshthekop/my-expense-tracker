@@ -16,7 +16,7 @@ function RecentExpensesCard({ expenses }: { expenses: Expense[] }) {
         <ScrollArea className="min-h-fit" scrollbars="vertical">
           <Box className="pb-5">
             {expenses.map((expense) => (
-              <Card key={expense.id} className="mb-5">
+              <Card key={expense.id} className="mb-5 mr-4">
                 <Flex justify="between" align="end">
                   <Flex justify="between" direction="column" gapY="2">
                     {expense.category && (
