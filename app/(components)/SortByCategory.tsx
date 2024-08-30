@@ -2,10 +2,11 @@
 
 import { Category } from "@prisma/client";
 import { Button, ChevronDownIcon, DropdownMenu } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function SortByCategory() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const categories = Object.values(Category);
 
@@ -13,7 +14,8 @@ function SortByCategory() {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <Button variant="soft">
-          All <ChevronDownIcon />
+          {searchParams.get("category") ? searchParams.get("category") : "All"}{" "}
+          <ChevronDownIcon />
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
