@@ -5,11 +5,14 @@ import { Box, Grid, Heading } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import BudgetCard from "./BudgetCard";
 import NewBudgetDialog from "./NewBudgetDialog";
+import { revalidatePath } from "next/cache";
 
-async function budgetsPage() {
+async function budgetsPage(searchParams: { update: boolean }) {
   const session = await getServerSession(authOptions);
 
   const budgets = await getBudgets();
+
+  if (searchParams.update) revalidatePath("/main/budgets");
 
   let categoricalExpenses: { category: Budget; expenses: Expense[] }[] = [];
 
