@@ -1,0 +1,23 @@
+describe('delete a budget', () => {
+  it('verifies budget is deleted and dashboard is updated', () => {
+    cy.visit('https://my-expense-tracker-beta.vercel.app/')
+    cy.contains('Login').click()
+    cy.get(':nth-child(1) > .rt-TextFieldRoot > .rt-reset').type('test2@xyz.com')
+    cy.get(':nth-child(2) > .rt-TextFieldRoot > .rt-reset').type('Test@123')
+    cy.get('.rt-BaseButton').click()
+    cy.get('.rt-BaseButton.xl\\:hidden').click()
+    cy.get('.rt-ContainerInner > .rt-Flex > [href="/main/budgets"]').click()
+    cy.get('.rt-Heading').contains('Budgets')
+    cy.get('.rt-Box > .rt-r-weight-bold').contains('Home')
+    cy.get('.rt-BaseCard > .rt-r-fd-column > .rt-Flex > :nth-child(1)').contains('$ 0 Spend')
+    cy.get('.rt-BaseCard > .rt-r-fd-column > .rt-Flex > :nth-child(2)').contains('$ 700 Remaining')
+    cy.get('.rt-BaseCard').click()
+    cy.get('[data-accent-color="red"]').contains('Delete').click()
+    cy.get('[class="rt-reset rt-BaseButton rt-r-size-2 rt-variant-solid rt-Button"]').contains('Delete').should('be.visible').click();
+    cy.reload()
+    cy.get('.rt-reset').contains('Go back to Dashboard').click()
+    cy.get(':nth-child(1) > .rt-r-jc-space-between > .rt-r-fd-column').contains('$ 0')
+    cy.get(':nth-child(2) > .rt-r-jc-space-between > .rt-r-fd-column').contains('$ 0')
+    cy.get(':nth-child(3) > .rt-r-jc-space-between > .rt-r-fd-column').contains('$ 0')
+  })
+})
